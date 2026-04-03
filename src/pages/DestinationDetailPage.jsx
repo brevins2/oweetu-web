@@ -3,7 +3,10 @@ import Footer from '@/components/footer'
 import Header2 from '@/components/header2'
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import { MapPin, Mountain, Camera, Leaf } from 'lucide-react'
+import { GiMountains } from "react-icons/gi";
+import { FaCamera } from "react-icons/fa";
+import { FaLeaf } from 'react-icons/fa'
+import { PiMapPinAreaFill } from "react-icons/pi";
 
 import ugandaMap from '@/assets/Uganda-map.jpg'
 import kenyaMap from '@/assets/kenya-map.jpg'
@@ -157,7 +160,7 @@ const CountryPage = () => {
                         <div className="space-y-4">
                             {data.tourism.map((item, idx) => (
                                 <div key={idx} className="flex gap-4 items-start">
-                                    <Leaf className="text-[#cf7a18]" size={20} />
+                                    <FaLeaf className="text-[#cf7a18]" size={20} />
                                     <span className="text-gray-700">{item}</span>
                                 </div>
                             ))}
@@ -175,7 +178,7 @@ const CountryPage = () => {
 
                         {data.highlights.map((place, idx) => (
                             <div key={idx} className="rounded-2xl shadow-md p-8 bg-[#f7f7f7] hover:shadow-xl transition">
-                                <MapPin className="text-[#cf7a18] mb-4" size={26} />
+                                <PiMapPinAreaFill className="text-[#cf7a18] mb-4" size={26} />
                                 <h4 className="text-lg font-semibold">{place}</h4>
                             </div>
                         ))}
@@ -189,7 +192,7 @@ const CountryPage = () => {
 
                     <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div className="bg-[#374b28] text-white rounded-2xl p-8">
-                            <Mountain size={30} className="mb-4" />
+                            <GiMountains size={30} className="mb-4" />
                             <h4 className="text-xl font-bold">Adventure Tourism</h4>
                             <p className="text-sm mt-3">
                                 Explore mountains, national parks and adventure experiences across {data.name}.
@@ -197,7 +200,7 @@ const CountryPage = () => {
                         </div>
 
                         <div className="bg-[#cf7a18] text-white rounded-2xl p-8">
-                            <Camera size={30} className="mb-4" />
+                            <FaCamera size={30} className="mb-4" />
                             <h4 className="text-xl font-bold">Wildlife Tourism</h4>
                             <p className="text-sm mt-3">
                                 Experience wildlife safaris and unforgettable nature adventures.
@@ -205,7 +208,7 @@ const CountryPage = () => {
                         </div>
 
                         <div className="bg-[#1b1b1b] text-white rounded-2xl p-8">
-                            <Leaf size={30} className="mb-4" />
+                            <FaLeaf size={30} className="mb-4" />
                             <h4 className="text-xl font-bold">Eco Tourism</h4>
                             <p className="text-sm mt-3">
                                 Enjoy sustainable travel experiences in nature and communities.

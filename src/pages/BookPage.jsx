@@ -1,8 +1,10 @@
 import Banner from '@/components/banner'
 import Footer from '@/components/footer'
 import Header2 from '@/components/header2'
-import { Mail, Maximize, PhoneCall } from 'lucide-react'
 import React, { useState } from 'react'
+import { LuMail } from "react-icons/lu";
+import { TbPhoneRinging } from "react-icons/tb";
+import { FaMaximize } from 'react-icons/fa6'
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
@@ -19,14 +21,14 @@ const BookPage = () => {
 
     const locations = [
         {
-            icon: <Mail color='#C57712' size={20} />,
+            icon: <LuMail color='#C57712' size={20} />,
             address: "info@oweetugorillaholidays.com",
             link: "mailto:info@oweetugorillaholidays.com"
         },
         {
-            icon: <PhoneCall color='#C57712' size={20} />,
-            address: "+256706064400",
-            link: "tel:+256706064400"
+            icon: <TbPhoneRinging color='#C57712' size={20} />,
+            address: "+256765390155",
+            link: "tel:+256765390155"
         },
     ]
 
@@ -115,7 +117,7 @@ const BookPage = () => {
 
                             <div className='relative'>
                                 <img src={newUrl} alt="country-tours" className='h-80 w-full rounded object-cover' />
-                                <Maximize className='relative bottom-2 left-[95%] z-20 text-white bg-green-500 p-1 font-bold cursor-pointer' onClick={maximizeImage} />
+                                <FaMaximize className='relative bottom-2 left-[95%] z-20 text-white bg-green-500 p-0.5 font-bold cursor-pointer' onClick={maximizeImage} />
                             </div>
                         </div>
                     </div>
@@ -140,8 +142,8 @@ const BookPage = () => {
                             </div>
 
                             <div className="flex flex-col gap-2">
-                                <label htmlFor="name">Destination <span className="text-red-500">*</span></label>
-                                <input type="text" name="name" id="name" className='border-2 rounded h-10 w-full border-gray-300 p-2 px-4 ring-0 focus:right-0 focus:border-gray-300 bg-white' placeholder='Where you want to go' required />
+                                <label htmlFor="destination">Destination <span className="text-red-500">*</span></label>
+                                <input type="text" name="destination" id="destination" className='border-2 rounded h-10 w-full border-gray-300 p-2 px-4 ring-0 focus:right-0 focus:border-gray-300 bg-white' placeholder='Where you want to go' required />
                             </div>
 
                             <div className="flex flex-col gap-2">

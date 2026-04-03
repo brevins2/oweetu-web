@@ -1,12 +1,18 @@
 import Banner from '@/components/banner'
 import Footer from '@/components/footer'
 import Header2 from '@/components/header2'
-import { Globe, Mail, MapPinned, Phone, PhoneCall } from 'lucide-react'
+import { GoGlobe } from "react-icons/go";
+import { LuMail } from "react-icons/lu";
+import { TbPhoneRinging } from "react-icons/tb";
+import { PiMapPinAreaFill } from "react-icons/pi";
+
 import React from 'react'
 
 import pearl from '@/assets/pearl.webp'
 import hotel from '@/assets/hotel-4.jpg'
 import fourbyfour from '@/assets/4X4.jpg'
+
+import { FaFacebook, FaInstagram, FaTiktok, FaXTwitter } from "react-icons/fa6";
 
 const ContactPage = () => {
     const reasons = [
@@ -29,22 +35,22 @@ const ContactPage = () => {
 
     const locations = [
         {
-            icon: <MapPinned color='#C57712' size={20} />,
+            icon: <PiMapPinAreaFill color='#C57712' size={20} />,
             address: "Entebbe, Uganda",
             link: ""
         },
         {
-            icon: <Mail color='#C57712' size={20} />,
+            icon: <LuMail color='#C57712' size={20} />,
             address: "info@oweetugorillaholidays.com",
             link: "mailto:info@oweetugorillaholidays.com"
         },
         {
-            icon: <PhoneCall color='#C57712' size={20} />,
-            address: "+256706064400",
-            link: "tel:+256706064400"
+            icon: <TbPhoneRinging color='#C57712' size={20} />,
+            address: "+256765390155",
+            link: "tel:+256765390155"
         },
         {
-            icon: <Globe color='#C57712' size={20} />,
+            icon: <GoGlobe color='#C57712' size={20} />,
             address: "Booking page",
             link: "https://oweetugorillaholidays.com/book/"
         }
@@ -90,6 +96,12 @@ const ContactPage = () => {
                                         }
                                     </div>
                                 ))}
+                            </div>
+                            <div className='flex gap-2 text-xl'>
+                                <a href="https://www.instagram.com/oweetugorillaholidays?igsh=MXhnZDk4eXk2NmtoMw==" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
+                                <a href="https://tiktok.com/@oweetu.gorilla.hol" target="_blank" rel="noopener noreferrer"><FaTiktok /></a>
+                                {/* <a href="https://www.facebook.com/oweetugorillaholidays" target="_blank" rel="noopener noreferrer"><FaFacebook /></a>
+                                <a href="https://x.com/oweetugorillahol" target="_blank" rel="noopener noreferrer"><FaXTwitter /></a> */}
                             </div>
                         </div>
                         <div className='text-left space-y-2 px-4 md:px-0'>

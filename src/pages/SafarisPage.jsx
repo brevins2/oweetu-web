@@ -3,7 +3,7 @@ import Footer from '@/components/footer'
 import Header2 from '@/components/header2'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Search } from 'lucide-react'
+import { CiSearch } from "react-icons/ci";
 import safariData from '@/utils/safarisData'
 
 const SafarisPage = () => {
@@ -45,7 +45,7 @@ const SafarisPage = () => {
                         <h3 className="text-xl font-bold mb-6">Filter Safaris</h3>
 
                         <div className="flex items-center border rounded-lg px-3 py-2 mb-6">
-                            <Search size={18} />
+                            <CiSearch size={18} className='font-extrabold' />
                             <input type="text" placeholder="Search safari..." className="outline-none ml-2 w-full" value={search} onChange={handleSearchChange} />
                         </div>
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
-import { Menu } from "lucide-react"
+import { TiThMenu } from "react-icons/ti";
+import { IoClose } from "react-icons/io5";
 import logo from "@/assets//logo.png"
 import { Link, useLocation } from "react-router-dom"
 
@@ -57,7 +58,7 @@ const Header1 = () => {
                 </nav>
 
                 <button className={`md:hidden ${scrolled ? "text-gray-900" : "text-white"}`} onClick={handleMenuOpen}>
-                    {open ? 'Close' : <Menu size={22} />}
+                    {open ? <IoClose size={22} className="text-red-600" /> : <TiThMenu size={22} />}
                 </button>
             </div>
 

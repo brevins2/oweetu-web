@@ -1,7 +1,14 @@
 import Footer from '@/components/footer'
 import Header1 from '@/components/header1'
 import HeroSlider from '@/components/heroSlider'
-import { CircleCheckBigIcon, Globe2Icon, HatGlasses, Heart, ShieldIcon, Star, Verified } from 'lucide-react'
+import { GoGlobe } from "react-icons/go";
+import { FaHeart } from "react-icons/fa";
+import { FaHatCowboy } from "react-icons/fa";
+import { FaShieldAlt } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
+import { FaCheckCircle } from "react-icons/fa";
+import { MdOutlineVerified } from "react-icons/md";
+
 import React from 'react'
 
 import bgimage1 from "../assets/travel-scaled-bg.png";
@@ -22,22 +29,22 @@ const HomePage = () => {
 
     const reasons = [
         {
-            icon: <HatGlasses color='#C57712' className='mx-auto' size={32} />,
+            icon: <FaHatCowboy color='#C57712' className='mx-auto' size={32} />,
             title: 'Expert Gorilla Trekking Guides',
             description: 'Travel with best, guides that will make your trip very enjoyable'
         },
         {
-            icon: <Globe2Icon color='#C57712' className='mx-auto' size={32} />,
+            icon: <GoGlobe color='#C57712' className='mx-auto' size={32} />,
             title: 'Authentic Ugandan Experience',
             description: 'An amazing experience, animals, culture & wildlife in Africa'
         },
         {
-            icon: <Verified color='#C57712' className='mx-auto' size={32} />,
+            icon: <MdOutlineVerified color='#C57712' className='mx-auto' size={32} />,
             title: 'Luxury & Comfort',
             description: 'Luxury, comfortable & affordable lodges & hotels for your stay'
         },
         {
-            icon: <ShieldIcon color='#C57712' className='mx-auto' size={32} />,
+            icon: <FaShieldAlt color='#C57712' className='mx-auto' size={32} />,
             title: 'Safe & Responsible Travel',
             description: 'Secure and peaceful travels, great security in the country'
         }
@@ -166,7 +173,7 @@ const HomePage = () => {
                 <div className='max-w-7xl text-center mx-auto my-10 px-4 md:px-0'>
                     <h2 className='text-xl md:text-3xl text-[#070e06] font-bold'>Why Travel With Oweetu Gorilla Holidays?</h2>
 
-                    <div className='mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 py-2'>
+                    <div className='md:mt-10 grid grid-cols-2 md:grid-cols-4 gap-4 py-2'>
                         {reasons.map((reason, idx) => (
                             <div key={idx} className='shadow-lg rounded-xl px-3 md:px-7 py-10 space-y-4'>
                                 {reason.icon}
@@ -189,7 +196,7 @@ const HomePage = () => {
 
                                     Diver culture, vibrant cities and warm hospitality make Uganda a must-visit destination for nature lovers and adventure seekers alike.
                                 </p>
-                                <Link to="/booking" className="py-4 px-6 rounded font-bold hover:bg-[#b96b11] bg-[#cf7a18]">Start Planning Today</Link>
+                                <Link to="/bookings" className="py-4 px-6 rounded font-bold hover:bg-[#b96b11] bg-[#cf7a18]">Start Planning Today</Link>
                             </div>
                         </div>
                     </div>
@@ -215,14 +222,14 @@ const HomePage = () => {
 
                 <div className='relative' style={{ backgroundImage: `url(${bgimage2})`, backgroundSize: "cover", backgroundPosition: "center" }}>
                     <div className='absolute inset-0 bg-black/10' />
-                    <div className='max-w-7xl text-left mx-auto my-10 py-20 relative h-115'>
+                    <div className='max-w-7xl text-left mx-auto my-10 py-20 relative md:h-100'>
                         <div className='grid grid-cols-1 md:grid-cols-3 justify-items-end w-full px-6 md:px-0 text-white'>
                             <div className='col-span-1 space-y-6'>
                                 <h2 className='text-xl md:text-3xl font-bold'>What Our Clients say</h2>
-                                <div className='space-y-4 mb-10 transition-all duration-700'>
+                                <div className='space-y-4 md:mb-10 transition-all duration-700'>
                                     <div className='flex gap-2'>
                                         {[0, 1, 2, 3, 4].map((_, i) => (
-                                            <Star key={i} className='text-[#cf7a18] fill-[#cf7a18]' />
+                                            <FaStar key={i} className='text-[#cf7a18] fill-[#cf7a18]' size={20} />
                                         ))}
                                     </div>
 
@@ -236,7 +243,7 @@ const HomePage = () => {
 
                                     <div className='flex gap-2 mt-4'>
                                         {[...Array(reviews[currentReview].hearts)].map((_, i) => (
-                                            <Heart key={i} className='text-[#aa049c] fill-[#aa049c]' />
+                                            <FaHeart key={i} className='text-[#aa049c] fill-[#aa049c]' size={20} />
                                         ))}
                                     </div>
                                 </div>
@@ -250,12 +257,12 @@ const HomePage = () => {
                     <h2 className='text-xl md:text-3xl text-[#070e06] text-center font-bold'>Our Destinations</h2>
                     <p className="text-gray-500 md:text-lg text-center">Travel through East Africa to a destination of your choice</p>
 
-                    <div className='mt-6 grid grid-cols-1 md:grid-cols-4 gap-4 py-2'>
+                    <div className='mt-2 md:mt-6 grid grid-cols-1 md:grid-cols-4 gap-4 py-2'>
                         {destinations.map((destination, idx) => (
                             <div key={idx} className={`shadow-lg rounded-xl text-white grid ${idx % 2 > 0 ? 'bg-[#b97635]' : 'bg-[#374b28]'}`}>
                                 <img src={destination.image} alt={destination.title} className='h-56 w-full object-cover rounded-t-xl' />
                                 <div className='p-3 pb-8 text-center'>
-                                    <span className={`text-3xl font-semibold ${idx % 2 === 0 ? 'text-[#b97635]' : 'text-[#374b28]'}`}>{destination.title}</span>
+                                    <span className={`text-2xl md:text-3xl pb-2 md:pb-0 font-semibold ${idx % 2 === 0 ? 'text-[#b97635]' : 'text-[#374b28]'}`}>{destination.title}</span>
                                     <p className='text-lg leading-7 mb-6'>{destination.description}</p>
                                     <Link to={destination.location} className={`py-3 px-6 rounded font-bold ${idx % 2 === 0 ? 'bg-[#b97635]' : 'bg-[#374b28]'}`}>View Page</Link>
                                 </div>
@@ -266,14 +273,14 @@ const HomePage = () => {
 
                 <div className='bg-[#f1f1f1] w-full py-4'>
                     <div className='grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto my-10 items-center'>
-                        <img src={tanzania} alt="lions" className='h-full md:h-115 w-full object-cover rounded' />
+                        <img src={tanzania} alt="lions" className='h-full md:h-115 w-full object-cover md:rounded' />
                         <div className='text-left space-y-2 px-4 md:px-0'>
                             <h2 className='text-xl md:text-3xl text-[#070e06] font-bold'>Top National Parks to visit</h2>
 
                             <div className='grid grid-cols-1 gap-3'>
                                 {parks.map((park, idx) => (
                                     <a key={idx} href={park.link} target='_blank' className='flex gap-4 hover:text-[#e47e0b] hover:font-bold'>
-                                        <CircleCheckBigIcon size={19} className='text-green-500' />
+                                        <FaCheckCircle size={19} className='text-green-500' />
                                         {park.name}
                                     </a>
                                 ))}

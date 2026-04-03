@@ -1,4 +1,5 @@
-import { Menu } from "lucide-react"
+import { TiThMenu } from "react-icons/ti";
+import { IoClose } from "react-icons/io5";
 import { Link, useLocation } from "react-router-dom"
 import logo from "@/assets//logo.png"
 import { useEffect, useState } from "react"
@@ -32,7 +33,7 @@ const Header2 = () => {
                 </nav>
 
                 <button className="md:hidden text-gray-900" onClick={handleMenuOpen}>
-                    {open ? 'Close' : <Menu size={22} />}
+                    {open ? <IoClose size={22} className="text-red-600" /> : <TiThMenu size={22} />}
                 </button>
             </div>
 
