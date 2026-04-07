@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
-import { Menu } from "lucide-react"
+import { TiThMenu } from "react-icons/ti";
+import { IoClose } from "react-icons/io5";
 import logo from "@/assets//logo.png"
 import { Link, useLocation } from "react-router-dom"
 
@@ -18,6 +19,8 @@ const Header1 = () => {
             const sliderHeight = window.innerHeight * 0.8
             setScrolled(window.scrollY > sliderHeight - 80)
         }
+
+        console.log(location.pathname)
 
         window.addEventListener("scroll", handleScroll)
         return () => window.removeEventListener("scroll", handleScroll)
@@ -48,25 +51,27 @@ const Header1 = () => {
                 </Link>
 
                 <nav className="hidden md:flex gap-8 text-sm font-medium items-center">
-                    <Link to='/' className={`${location.pathname === '/' ? 'text-[#cf7a18]' : ''} transition ${scrolled ? "text-gray-800" : "text-white"}`}>Home</Link>
+                    <Link to='/' className={`text-[#cf7a18] transition`}>Home</Link>
                     <Link to='/safaris' className={`${location.pathname === '/safaris' ? 'text-[#cf7a18]' : ''} transition ${scrolled ? "text-gray-800" : "text-white"}`}>Safaris</Link>
                     <Link to='/destinations' className={`${location.pathname === '/destinations' ? 'text-[#cf7a18]' : ''} transition ${scrolled ? "text-gray-800" : "text-white"}`}>Destinations</Link>
                     <Link to='/about' className={`${location.pathname === '/about' ? 'text-[#cf7a18]' : ''} transition ${scrolled ? "text-gray-800" : "text-white"}`}>About</Link>
                     <Link to='/contact' className={`${location.pathname === '/contact' ? 'text-[#cf7a18]' : ''} transition ${scrolled ? "text-gray-800" : "text-white"}`}>Contact</Link>
+                    <Link to='/gallery' className={`${location.pathname === '/gallery' ? 'text-[#cf7a18]' : ''} transition ${scrolled ? "text-gray-800" : "text-white"}`}>Gallery</Link>
                     <Link to='/bookings' className={`bg-[#cf7a18] py-3 px-6 rounded-md transition text-white`}>Book Now</Link>
                 </nav>
 
                 <button className={`md:hidden ${scrolled ? "text-gray-900" : "text-white"}`} onClick={handleMenuOpen}>
-                    {open ? 'Close' : <Menu size={22} />}
+                    {open ? <IoClose size={22} className="text-red-600" /> : <TiThMenu size={22} />}
                 </button>
             </div>
 
-            <nav className={`${open ? 'flex flex-col' : 'hidden'} md:hidden gap-8 text-sm font-medium items-left p-4`}>
-                <Link to='/' className={`${location.pathname === '/' ? 'text-[#cf7a18]' : ''} transition ${scrolled ? "text-gray-800" : "text-white"}`}>Home</Link>
-                <Link to='/safaris' className={`${location.pathname === '/safaris' ? 'text-[#cf7a18]' : ''} transition ${scrolled ? "text-gray-800" : "text-white"}`}>Safaris</Link>
-                <Link to='/destinations' className={`${location.pathname === '/destinations' ? 'text-[#cf7a18]' : ''} transition ${scrolled ? "text-gray-800" : "text-white"}`}>Destinations</Link>
-                <Link to='/about' className={`${location.pathname === '/about' ? 'text-[#cf7a18]' : ''} transition ${scrolled ? "text-gray-800" : "text-white"}`}>About</Link>
-                <Link to='/contact' className={`${location.pathname === '/contact' ? 'text-[#cf7a18]' : ''} transition ${scrolled ? "text-gray-800" : "text-white"}`}>Contact</Link>
+            <nav className={`${open ? 'flex flex-col' : 'hidden'} md:hidden gap-8 text-sm font-medium items-left p-4 bg-white shadow-lg`}>
+                <Link to='/' className={`text-[#cf7a18] transition`}>Home</Link>
+                <Link to='/safaris' className={`${location.pathname === '/safaris' ? 'text-[#cf7a18]' : ''} transition ${scrolled ? "text-gray-800" : "text-slate-700"}`}>Safaris</Link>
+                <Link to='/destinations' className={`${location.pathname === '/destinations' ? 'text-[#cf7a18]' : ''} transition ${scrolled ? "text-gray-800" : "text-slate-700"}`}>Destinations</Link>
+                <Link to='/about' className={`${location.pathname === '/about' ? 'text-[#cf7a18]' : ''} transition ${scrolled ? "text-gray-800" : "text-slate-700"}`}>About</Link>
+                <Link to='/contact' className={`${location.pathname === '/contact' ? 'text-[#cf7a18]' : ''} transition ${scrolled ? "text-gray-800" : "text-slate-700"}`}>Contact</Link>
+                <Link to='/gallery' className={`${location.pathname === '/gallery' ? 'text-[#cf7a18]' : ''} transition ${scrolled ? "text-gray-800" : "text-slate-700"}`}>Gallery</Link>
                 <Link to='/bookings' className={`bg-[#cf7a18] py-3 px-6 rounded-md transition text-white`}>Book Now</Link>
             </nav>
         </motion.header>

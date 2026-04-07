@@ -3,7 +3,7 @@ import { Dialog as DialogPrimitive } from "radix-ui"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { XIcon } from "lucide-react"
+import { IoClose } from "react-icons/io5"
 
 function Dialog({
   ...props
@@ -64,7 +64,7 @@ function DialogContent({
         {showCloseButton && (
           <DialogPrimitive.Close data-slot="dialog-close" asChild>
             <Button variant="ghost" className="absolute top-4 right-4" size="icon-sm">
-              <XIcon />
+              <IoClose />
               <span className="sr-only">Close</span>
             </Button>
           </DialogPrimitive.Close>

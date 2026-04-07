@@ -1,7 +1,8 @@
-import { RotateCcw } from "lucide-react"
 import React from "react"
 import { Route, Routes } from "react-router-dom"
 import SafariDetails from "./pages/SafariDetails"
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import Gallery from "./pages/Gallery";
 
 const HomePage = React.lazy(() => import("./pages/HomePage"))
 const ContactPage = React.lazy(() => import("./pages/ContactPage"))
@@ -16,8 +17,8 @@ const CountryPage = React.lazy(() => import("./pages/CountryPage"))
 const LazyLoader = ({ children }) => {
   return (
     <React.Suspense fallback={
-      <div className="flex justify-center align-middle h-screen gap-4 text-gray-500">
-        <RotateCcw />
+      <div className="flex justify-center items-center h-screen gap-4 text-gray-500">
+        <AiOutlineLoading3Quarters className="animate-spin" />
         <div>Loading</div>
       </div>
     }>
@@ -38,6 +39,7 @@ function App() {
       <Route path="/destinations/country/:country" element={<LazyLoader><CountryPage /></LazyLoader>} />
       <Route path="/safaris/:id" element={<LazyLoader><SafariDetails /></LazyLoader>} />
       <Route path="/bookings" element={<LazyLoader><BookPage /></LazyLoader>} />
+      <Route path="/gallery" element={<LazyLoader><Gallery /></LazyLoader>} />
       <Route path="*" element={<LazyLoader><ErrorPage /></LazyLoader>} />
     </Routes>
   )

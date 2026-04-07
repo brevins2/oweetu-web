@@ -1,4 +1,5 @@
-import { Menu } from "lucide-react"
+import { TiThMenu } from "react-icons/ti";
+import { IoClose } from "react-icons/io5";
 import { Link, useLocation } from "react-router-dom"
 import logo from "@/assets//logo.png"
 import { useEffect, useState } from "react"
@@ -24,15 +25,16 @@ const Header2 = () => {
 
                 <nav className="hidden md:flex gap-8 text-sm font-medium items-center">
                     <Link to='/' className={`${location.pathname === '/' ? 'text-[#cf7a18]' : ''} hover:text-[#cf7a18] font-medium text-[16px]`}>Home</Link>
-                    <Link to='/safaris' className={`${location.pathname === '/safaris' ? 'text-[#cf7a18]' : ''} hover:text-[#cf7a18] font-medium text-[16px]`}>Safaris</Link>
-                    <Link to='/destinations' className={`${location.pathname === '/destinations' ? 'text-[#cf7a18]' : ''} hover:text-[#cf7a18] font-medium text-[16px]`}>Destinations</Link>
+                    <Link to='/safaris' className={`${location.pathname === '/safaris' || location.pathname.includes('safaris') ? 'text-[#cf7a18]' : ''} hover:text-[#cf7a18] font-medium text-[16px]`}>Safaris</Link>
+                    <Link to='/destinations' className={`${location.pathname === '/destinations' || location.pathname.includes('destinations') ? 'text-[#cf7a18]' : ''} hover:text-[#cf7a18] font-medium text-[16px]`}>Destinations</Link>
                     <Link to='/about' className={`${location.pathname === '/about' ? 'text-[#cf7a18]' : ''} hover:text-[#cf7a18] font-medium text-[16px]`}>About</Link>
                     <Link to='/contact' className={`${location.pathname === '/contact' ? 'text-[#cf7a18]' : ''} hover:text-[#cf7a18] font-medium text-[16px]`}>Contact</Link>
+                    <Link to='/gallery' className={`${location.pathname === '/gallery' ? 'text-[#cf7a18]' : ''} hover:text-[#cf7a18] font-medium text-[16px]`}>Gallery</Link>
                     <Link to='/bookings' className="bg-[#cf7a18] hover:bg-[#eb932f] py-3 px-6 rounded-md transition text-white">Book Now</Link>
                 </nav>
 
                 <button className="md:hidden text-gray-900" onClick={handleMenuOpen}>
-                    {open ? 'Close' : <Menu size={22} />}
+                    {open ? <IoClose size={22} className="text-red-600" /> : <TiThMenu size={22} />}
                 </button>
             </div>
 
@@ -42,6 +44,7 @@ const Header2 = () => {
                 <Link to='/destinations' className={`${location.pathname === '/destinations' ? 'text-[#cf7a18]' : ''} hover:text-[#cf7a18] font-medium text-[16px]`}>Destinations</Link>
                 <Link to='/about' className={`${location.pathname === '/about' ? 'text-[#cf7a18]' : ''} hover:text-[#cf7a18] font-medium text-[16px]`}>About</Link>
                 <Link to='/contact' className={`${location.pathname === '/contact' ? 'text-[#cf7a18]' : ''} hover:text-[#cf7a18] font-medium text-[16px]`}>Contact</Link>
+                <Link to='/gallery' className={`${location.pathname === '/gallery' ? 'text-[#cf7a18]' : ''} hover:text-[#cf7a18] font-medium text-[16px]`}>Gallery</Link>
                 <Link to='/bookings' className="bg-[#cf7a18] hover:bg-[#eb932f] py-3 px-6 rounded-md transition text-white">Book Now</Link>
             </nav>
         </header>

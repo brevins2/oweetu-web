@@ -3,7 +3,8 @@ import Footer from '@/components/footer'
 import Header2 from '@/components/header2'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Search } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { CiSearch } from "react-icons/ci";
 import safariData from '@/utils/safarisData'
 
 const SafarisPage = () => {
@@ -33,6 +34,49 @@ const SafarisPage = () => {
         setCurrentPage(1)
     }
 
+    // Animation variants
+    const fadeInUp = {
+        hidden: { opacity: 0, y: 30 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+    }
+
+    const staggerContainer = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1,
+                delayChildren: 0.2
+            }
+        }
+    }
+
+    const cardVariants = {
+        hidden: { opacity: 0, y: 50, scale: 0.95 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            transition: { duration: 0.5, ease: "easeOut" }
+        }
+    }
+
+    const sidebarVariants = {
+        hidden: { opacity: 0, x: -50 },
+        visible: { opacity: 1, x: 0, transition: { duration: 0.6 } }
+    }
+
+    const buttonVariants = {
+        hover: { scale: 1.05, transition: { duration: 0.2 } },
+        tap: { scale: 0.95 },
+        active: { scale: 1, backgroundColor: "#374b28", color: "#ffffff" }
+    }
+
+    const pageButtonVariants = {
+        hover: { scale: 1.1, transition: { duration: 0.2 } },
+        tap: { scale: 0.95 }
+    }
+
     return (
         <div>
             <Header2 />
@@ -40,65 +84,217 @@ const SafarisPage = () => {
 
             <section className="bg-[#f7f7f7] py-12">
                 <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 px-4">
-
-                    <div className="bg-white p-6 rounded-2xl shadow-md h-fit">
+                    {/* Sidebar Filters */}
+                    <motion.div
+                        variants={sidebarVariants}
+                        initial="hidden"
+                        animate="visible"
+                        className="bg-white p-6 rounded-2xl shadow-md h-fit sticky top-24"
+                    >
                         <h3 className="text-xl font-bold mb-6">Filter Safaris</h3>
 
-                        <div className="flex items-center border rounded-lg px-3 py-2 mb-6">
-                            <Search size={18} />
-                            <input type="text" placeholder="Search safari..." className="outline-none ml-2 w-full" value={search} onChange={handleSearchChange} />
-                        </div>
+                        <motion.div
+                            className="flex items-center border rounded-lg px-3 py-2 mb-6"
+                            whileHover={{ boxShadow: "0 0 0 2px #374b28" }}
+                            transition={{ duration: 0.2 }}
+                        >
+                            <CiSearch size={18} className='font-extrabold' />
+                            <input
+                                type="text"
+                                placeholder="Search safari..."
+                                className="outline-none ml-2 w-full"
+                                value={search}
+                                onChange={handleSearchChange}
+                            />
+                        </motion.div>
 
-                        <div className="space-y-3">
+                        <motion.div
+                            variants={staggerContainer}
+                            initial="hidden"
+                            animate="visible"
+                            className="space-y-3"
+                        >
                             {["all", "uganda", "kenya", "tanzania", "rwanda"].map((country) => (
-                                <button key={country} onClick={() => handleCountryChange(country)} className={`w-full text-left px-4 py-3 rounded-lg capitalize transition ${selectedCountry === country ? "bg-[#374b28] text-white" : "bg-[#f3f3f3] hover:bg-[#e7e7e7]"}`}>
+                                <motion.button
+                                    key={country}
+                                    variants={cardVariants}
+                                    whileHover="hover"
+                                    whileTap="tap"
+                                    onClick={() => handleCountryChange(country)}
+                                    className={`w-full text-left px-4 py-3 rounded-lg capitalize transition-all duration-300 ${selectedCountry === country
+                                            ? "bg-[#374b28] text-white shadow-md"
+                                            : "bg-[#f3f3f3] hover:bg-[#e7e7e7]"
+                                        }`}
+                                >
                                     {country === "all" ? "All Safaris" : country}
-                                </button>
+                                </motion.button>
                             ))}
-                        </div>
-                    </div>
+                        </motion.div>
+                    </motion.div>
 
+                    {/* Safaris Grid */}
                     <div className="md:col-span-3">
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {paginatedSafaris.map((safari) => (
-                                <Link to={`/safaris/${safari.id}`} key={safari.id}>
-                                    <div className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition">
-                                        <img src={safari.image} alt={safari.title} className="w-full h-56 object-cover" />
-                                        <div className="p-6">
-                                            <h4 className="font-semibold">{safari.title}</h4>
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={selectedCountry + search + currentPage}
+                                variants={staggerContainer}
+                                initial="hidden"
+                                animate="visible"
+                                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                            >
+                                {paginatedSafaris.length > 0 ? (
+                                    paginatedSafaris.map((safari) => (
+                                        <motion.div
+                                            key={safari.id}
+                                            variants={cardVariants}
+                                            whileHover={{ y: -10 }}
+                                            transition={{ duration: 0.3 }}
+                                        >
+                                            <Link to={`/safaris/${safari.id}`}>
+                                                <motion.div
+                                                    className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer"
+                                                    whileHover={{ scale: 1.02 }}
+                                                >
+                                                    <motion.div className="overflow-hidden">
+                                                        <motion.img
+                                                            src={safari.image}
+                                                            alt={safari.title}
+                                                            className="w-full h-56 object-cover"
+                                                            whileHover={{ scale: 1.1 }}
+                                                            transition={{ duration: 0.4 }}
+                                                        />
+                                                    </motion.div>
+                                                    <div className="p-6">
+                                                        <motion.h4
+                                                            className="font-semibold text-lg"
+                                                            initial={{ opacity: 0 }}
+                                                            animate={{ opacity: 1 }}
+                                                            transition={{ delay: 0.1 }}
+                                                        >
+                                                            {safari.title}
+                                                        </motion.h4>
 
-                                            <p className="text-sm text-gray-500 mt-2 line-clamp-2">
-                                                {safari.description}
-                                            </p>
+                                                        <motion.p
+                                                            className="text-sm text-gray-500 mt-2 line-clamp-2"
+                                                            initial={{ opacity: 0 }}
+                                                            animate={{ opacity: 1 }}
+                                                            transition={{ delay: 0.2 }}
+                                                        >
+                                                            {safari.description}
+                                                        </motion.p>
 
-                                            <span className="inline-block mt-4 text-sm text-[#cf7a18] font-semibold">
-                                                View Details →
-                                            </span>
-                                        </div>
-                                    </div>
-                                </Link>
-                            ))}
-                        </div>
+                                                        <motion.span
+                                                            className="inline-block mt-4 text-sm text-[#cf7a18] font-semibold"
+                                                            whileHover={{ x: 10 }}
+                                                            transition={{ duration: 0.2 }}
+                                                        >
+                                                            View Details →
+                                                        </motion.span>
+                                                    </div>
+                                                </motion.div>
+                                            </Link>
+                                        </motion.div>
+                                    ))
+                                ) : (
+                                    <motion.div
+                                        className="col-span-full text-center py-20"
+                                        initial={{ opacity: 0, y: 30 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.5 }}
+                                    >
+                                        <p className="text-gray-500 text-lg">No safaris found matching your criteria.</p>
+                                        <motion.button
+                                            whileHover={{ scale: 1.05 }}
+                                            whileTap={{ scale: 0.95 }}
+                                            onClick={() => {
+                                                setSelectedCountry("all")
+                                                setSearch("")
+                                            }}
+                                            className="mt-4 px-6 py-2 bg-[#cf7a18] text-white rounded-lg"
+                                        >
+                                            Clear Filters
+                                        </motion.button>
+                                    </motion.div>
+                                )}
+                            </motion.div>
+                        </AnimatePresence>
 
+                        {/* Pagination */}
                         {totalPages > 1 && (
-                            <div className="flex justify-center mt-12 gap-3 flex-wrap">
-                                <button onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} className="px-4 py-2 bg-white rounded-lg shadow hover:bg-gray-100">
+                            <motion.div
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: 0.3 }}
+                                className="flex justify-center mt-12 gap-3 flex-wrap"
+                            >
+                                <motion.button
+                                    variants={pageButtonVariants}
+                                    whileHover="hover"
+                                    whileTap="tap"
+                                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                                    className="px-4 py-2 bg-white rounded-lg shadow hover:bg-gray-100 transition-all duration-300"
+                                    disabled={currentPage === 1}
+                                    style={{ opacity: currentPage === 1 ? 0.5 : 1 }}
+                                >
                                     Prev
-                                </button>
+                                </motion.button>
 
                                 {[...Array(totalPages)].map((_, index) => {
                                     const page = index + 1
-                                    return (
-                                        <button key={page} onClick={() => setCurrentPage(page)} className={`px-4 py-2 rounded-lg shadow transition ${currentPage === page ? "bg-[#374b28] text-white" : "bg-white hover:bg-gray-100"} `}>
-                                            {page}
-                                        </button>
-                                    )
+                                    // Show limited page numbers for better UX
+                                    if (
+                                        page === 1 ||
+                                        page === totalPages ||
+                                        (page >= currentPage - 1 && page <= currentPage + 1)
+                                    ) {
+                                        return (
+                                            <motion.button
+                                                key={page}
+                                                variants={pageButtonVariants}
+                                                whileHover="hover"
+                                                whileTap="tap"
+                                                onClick={() => setCurrentPage(page)}
+                                                className={`px-4 py-2 rounded-lg shadow transition-all duration-300 ${currentPage === page
+                                                        ? "bg-[#374b28] text-white"
+                                                        : "bg-white hover:bg-gray-100"
+                                                    }`}
+                                            >
+                                                {page}
+                                            </motion.button>
+                                        )
+                                    } else if (
+                                        (page === currentPage - 2 && currentPage > 3) ||
+                                        (page === currentPage + 2 && currentPage < totalPages - 2)
+                                    ) {
+                                        return <span key={page} className="px-2">...</span>
+                                    }
+                                    return null
                                 })}
 
-                                <button onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} className="px-4 py-2 bg-white rounded-lg shadow hover:bg-gray-100">
+                                <motion.button
+                                    variants={pageButtonVariants}
+                                    whileHover="hover"
+                                    whileTap="tap"
+                                    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                                    className="px-4 py-2 bg-white rounded-lg shadow hover:bg-gray-100 transition-all duration-300"
+                                    disabled={currentPage === totalPages}
+                                    style={{ opacity: currentPage === totalPages ? 0.5 : 1 }}
+                                >
                                     Next
-                                </button>
-                            </div>
+                                </motion.button>
+                            </motion.div>
+                        )}
+
+                        {/* Results Count */}
+                        {filteredSafaris.length > 0 && (
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.5, delay: 0.2 }}
+                                className="text-center mt-6 text-gray-500 text-sm"
+                            >
+                                Showing {startIndex + 1} - {Math.min(startIndex + itemsPerPage, filteredSafaris.length)} of {filteredSafaris.length} safaris
+                            </motion.div>
                         )}
                     </div>
                 </div>
