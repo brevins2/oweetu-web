@@ -2,6 +2,7 @@ import React from "react"
 import { Route, Routes } from "react-router-dom"
 import SafariDetails from "./pages/SafariDetails"
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import Gallery from "./pages/Gallery";
 
 const HomePage = React.lazy(() => import("./pages/HomePage"))
 const ContactPage = React.lazy(() => import("./pages/ContactPage"))
@@ -38,6 +39,7 @@ function App() {
       <Route path="/destinations/country/:country" element={<LazyLoader><CountryPage /></LazyLoader>} />
       <Route path="/safaris/:id" element={<LazyLoader><SafariDetails /></LazyLoader>} />
       <Route path="/bookings" element={<LazyLoader><BookPage /></LazyLoader>} />
+      <Route path="/gallery" element={<LazyLoader><Gallery /></LazyLoader>} />
       <Route path="*" element={<LazyLoader><ErrorPage /></LazyLoader>} />
     </Routes>
   )

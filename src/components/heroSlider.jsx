@@ -3,19 +3,19 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Link } from "react-router-dom"
 
 import guides from '@/assets/guides.jpg'
-import lions from '@/assets/tanzania.jpg'
-import rw from '@/assets/rw.jpg'
+import car_inside from '@/assets/car-inside.jpeg'
+import tourists from '@/assets/tourists.jpeg'
 import ken from '@/assets/ken.jpg'
-import fourXfour from '@/assets/4X4.jpg'
-import sixXfour from '@/assets/6X4.jpg'
+import car1 from '@/assets/car1.jpeg'
+import hotel1 from '@/assets/hotel-1.jpeg'
 
 const images = [
+    car1,
     guides,
-    lions,
-    rw,
+    car_inside,
+    tourists,
     ken,
-    fourXfour,
-    sixXfour
+    hotel1
 ]
 
 const HeroSlider = () => {
@@ -30,7 +30,7 @@ const HeroSlider = () => {
     }, [])
 
     return (
-        <div className="relative w-full h-[60vh] md:h-[90vh] overflow-hidden">
+        <div className="relative w-full h-[80vh] md:h-[95vh] overflow-hidden">
             <AnimatePresence mode="wait">
                 <motion.img
                     key={index}
@@ -46,7 +46,7 @@ const HeroSlider = () => {
             <div className="absolute inset-0 bg-black/70" />
 
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-6">
-                <h1 className="text-2xl md:text-6xl font-bold md:mb-4 w-[80%] md:w-[60%] md:leading-16">
+                <h1 className="text-2xl md:text-5xl font-bold md:mb-4 w-[80%] md:w-[50%] md:leading-16">
                     Experience the Magic of Uganda's Gorilla Holidays
                 </h1>
                 <p className="max-w-2xl text-lg md:text-2xl text-gray-200 mt-5">
