@@ -1,0 +1,16 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/inter";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter Variable", sans-serif;
+}
+
+Card {
+  border: 0px !important;
+}
