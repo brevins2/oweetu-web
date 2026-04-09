@@ -9,7 +9,7 @@ import { FaStar } from "react-icons/fa";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 
@@ -22,12 +22,27 @@ import kenya from '@/assets/ken.jpg'
 import tz from '@/assets/tz.jpg'
 
 import tanzania from '@/assets/lion-family.jpeg'
-
-import safarisData from '@/utils/safarisData'
 import { Link } from 'react-router-dom';
+import axiosInstance from '@/utils/axiosInstance';
+
+const base_url = import.meta.env.VITE_API_URL
 
 const HomePage = () => {
     const [currentReview, setCurrentReview] = React.useState(0);
+    const [safaris, setSafaris] = React.useState([])
+
+    const getSafaris = async () => {
+        try {
+            const respo = await axiosInstance.get('safaris');
+            setSafaris(respo.data.data)
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    useEffect(() => {
+        getSafaris();
+    }, [])
 
     const fadeInUp = {
         hidden: { opacity: 0, y: 60 },
@@ -268,8 +283,8 @@ const HomePage = () => {
                         </motion.p>
 
                         <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }} className='mt-10 grid grid-cols-1 md:grid-cols-3 gap-4 py-2'>
-                            {safarisData.slice(0, 3).map((experience, idx) => (
-                                <motion.div key={idx} variants={cardVariants} whileHover={{ scale: 1.03 }} transition={{ duration: 0.3 }} className='shadow-lg rounded-xl px-7 py-10 h-80 text-white grid items-end relative cursor-pointer overflow-hidden' style={{ backgroundImage: `url(${experience.image})`, backgroundSize: "cover", backgroundPosition: "center" }}>
+                            {safaris.length > 0 ? safaris.slice(0, 3).map((experience, idx) => (
+                                <motion.div key={idx} variants={cardVariants} whileHover={{ scale: 1.03 }} transition={{ duration: 0.3 }} className='shadow-lg rounded-xl px-7 py-10 h-80 text-white grid items-end relative cursor-pointer overflow-hidden' style={{ backgroundImage: `url(${base_url+experience.image})`, backgroundSize: "cover", backgroundPosition: "center" }}>
                                     <div className='absolute inset-0 bg-black/30 rounded-xl hover:bg-black/50 transition duration-300' />
                                     <div className='relative space-y-3'>
                                         <span className='text-xl font-semibold'>{experience.title}</span>
@@ -279,7 +294,7 @@ const HomePage = () => {
                                         </motion.div>
                                     </div>
                                 </motion.div>
-                            ))}
+                            )): <h4 className='italic text-gray-500'>Safari packages loading</h4>}
                         </motion.div>
                     </div>
                 </SectionObserver>

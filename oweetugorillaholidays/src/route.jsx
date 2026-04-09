@@ -1,9 +1,12 @@
 import React from "react"
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes, Navigate } from "react-router-dom"
 import SafariDetails from "./pages/SafariDetails"
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import Gallery from "./pages/Gallery";
+import { AuthProvider, useAuth } from './context/AuthContext';
 
+const Gallery = React.lazy(() => import("./pages/Gallery"));
+const Dashboard = React.lazy(() => import("./layout/Dashboard"));
+const LoginPage = React.lazy(() => import("./pages/Login"));
 const HomePage = React.lazy(() => import("./pages/HomePage"))
 const ContactPage = React.lazy(() => import("./pages/ContactPage"))
 const AboutPage = React.lazy(() => import("./pages/AboutPage"))
@@ -18,8 +21,7 @@ const LazyLoader = ({ children }) => {
   return (
     <React.Suspense fallback={
       <div className="flex justify-center items-center h-screen gap-4 text-gray-500">
-        <AiOutlineLoading3Quarters className="animate-spin" />
-        <div>Loading</div>
+        <AiOutlineLoading3Quarters className="animate-spin font-bold text-green-600" size={30} />
       </div>
     }>
       {children}
@@ -27,7 +29,26 @@ const LazyLoader = ({ children }) => {
   )
 }
 
-function App() {
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <AiOutlineLoading3Quarters className="animate-spin" size={30} />
+        <span className="ml-2">Loading...</span>
+      </div>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/access" replace />;
+  }
+
+  return children;
+};
+
+function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<LazyLoader><HomePage /></LazyLoader>} />
@@ -40,9 +61,27 @@ function App() {
       <Route path="/safaris/:id" element={<LazyLoader><SafariDetails /></LazyLoader>} />
       <Route path="/bookings" element={<LazyLoader><BookPage /></LazyLoader>} />
       <Route path="/gallery" element={<LazyLoader><Gallery /></LazyLoader>} />
+      <Route path="/access" element={<LazyLoader><LoginPage /></LazyLoader>} />
+
+      <Route path="/mgt/*" element={
+        <ProtectedRoute>
+          <LazyLoader>
+            <Dashboard />
+          </LazyLoader>
+        </ProtectedRoute>
+      } />
+
       <Route path="*" element={<LazyLoader><ErrorPage /></LazyLoader>} />
     </Routes>
-  )
+  );
 }
 
-export default App
+function App() {
+  return (
+    <AuthProvider>
+      <AppRoutes />
+    </AuthProvider>
+  );
+}
+
+export default App;
