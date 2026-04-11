@@ -30,9 +30,11 @@ const Safari = sequelize.define('Safari', {
         }
     },
     country: {
-        type: DataTypes.ENUM('Uganda', 'Kenya', 'Tanzania', 'Rwanda'),
-        defaultValue: 'Uganda',
-        allowNull: false
+        type: DataTypes.STRING(225),
+        allowNull: false,
+        validate: {
+            notEmpty: { msg: 'Country is required' }
+        }
     },
     activities: {
         type: DataTypes.TEXT,

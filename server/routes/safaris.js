@@ -68,23 +68,14 @@ router.get('/:id', async (req, res) => {
 // Create safari (protected - admin/editor)
 router.post('/', authenticate, authorize('admin', 'editor'), uploadSingle('image'), async (req, res) => {
     try {
-        // Log for debugging
-        console.log('Request body:', req.body);
-        console.log('Uploaded file:', req.file);
-
-        // Parse the form data properly
         const safariData = { ...req.body };
 
-        // Handle file upload
         if (req.file) {
-            // Store the relative path for the database
             safariData.image = `/uploads/safaris/${req.file.filename}`;
-            console.log('Image saved at:', safariData.image);
         } else {
             console.log('No image file uploaded');
         }
 
-        // Convert price to number if it's a string
         if (safariData.price) {
             safariData.price = parseFloat(safariData.price);
         }

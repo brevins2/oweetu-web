@@ -137,7 +137,7 @@ function SafarisManager() {
         description: "",
         duration: "",
         price: "",
-        country: "Uganda",
+        country: [],
         activities: "",
         accommodation: "",
         best_time: "",
@@ -168,7 +168,7 @@ function SafarisManager() {
             description: "",
             duration: "",
             price: "",
-            country: "Uganda",
+            country: "",
             activities: "",
             accommodation: "",
             best_time: "",
@@ -181,17 +181,18 @@ function SafarisManager() {
 
     const handleEdit = (item) => {
         setEditingId(item.id);
+
         setForm({
             title: item.title || "",
             description: item.description || "",
             duration: item.duration || "",
             price: item.price || "",
-            country: item.country || "Uganda",
+            country: item.country ? item.country.split(",").map(c => c.trim()) : [],
             activities: item.activities || "",
             accommodation: item.accommodation || "",
             best_time: item.best_time || "",
             itinerary: item.itinerary || "",
-            image: null,
+            image: item.image || null,
             existingImage: item.image || null
         });
         setMode("edit");
@@ -203,9 +204,13 @@ function SafarisManager() {
             return;
         }
 
+
         const formData = new FormData();
+        formData.append('country', form.country.join(", "));
+        
         Object.keys(form).forEach(key => {
-            if (key === 'existingImage') return;
+            if (key === 'existingImage' || key === 'country') return;
+
             if (form[key] !== null && form[key] !== undefined && form[key] !== "") {
                 if (key === 'image' && form[key] instanceof File) {
                     formData.append(key, form[key]);
@@ -290,13 +295,33 @@ function SafarisManager() {
                                 <Input placeholder="e.g., Serengeti Expedition" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} />
                             </div>
                             <div>
-                                <label className="text-sm font-medium text-gray-700 mb-1 block">Country *</label>
-                                <select value={form.country} onChange={e => setForm({ ...form, country: e.target.value })} className="border w-full border-gray-300 rounded-lg px-3 py-2">
-                                    <option value="Uganda">Uganda</option>
-                                    <option value="Kenya">Kenya</option>
-                                    <option value="Tanzania">Tanzania</option>
-                                    <option value="Rwanda">Rwanda</option>
-                                </select>
+                                <label className="text-sm font-medium text-gray-700 mb-2 block">Countries *</label>
+
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                                    {["Uganda", "Kenya", "Tanzania", "Rwanda"].map((country) => (
+                                        <label key={country} className="flex items-center gap-2 border rounded-lg px-3 py-2 cursor-pointer hover:bg-gray-50">
+                                            <input
+                                                type="checkbox"
+                                                checked={form.country.includes(country)}
+                                                value={country}
+                                                onChange={(e) => {
+                                                    if (e.target.checked) {
+                                                        setForm({
+                                                            ...form,
+                                                            country: [...form.country, country]
+                                                        });
+                                                    } else {
+                                                        setForm({
+                                                            ...form,
+                                                            country: form.country.filter(c => c !== country)
+                                                        });
+                                                    }
+                                                }}
+                                            />
+                                            <span>{country}</span>
+                                        </label>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                         <div>
@@ -401,7 +426,7 @@ function SafarisManager() {
                                                         </div>
                                                     )}
                                                 </td>
-                                                <td className="px-6 py-4 font-medium">{item.title}</td>
+                                                <td className="px-6 py-4 font-medium line-clamp-1">{item.title}</td>
                                                 <td className="px-6 py-4">{item.country}</td>
                                                 <td className="px-6 py-4">{item.duration || "—"}</td>
                                                 <td className="px-6 py-4 font-semibold text-amber-600">${item.price}</td>
@@ -469,7 +494,7 @@ function DestinationsManager() {
     const [loading, setLoading] = useState(true);
     const [editingId, setEditingId] = useState(null);
     const [form, setForm] = useState({
-        name: "Uganda",
+        name: "",
         description: "",
         tourism: "",
         map: "",
@@ -496,7 +521,7 @@ function DestinationsManager() {
 
     const resetForm = () => {
         setForm({
-            name: "Uganda",
+            name: "",
             description: "",
             tourism: "",
             map: "",
@@ -510,7 +535,7 @@ function DestinationsManager() {
     const handleEdit = (item) => {
         setEditingId(item.id);
         setForm({
-            name: item.name || "Uganda",
+            name: item.name || "",
             description: item.description || "",
             tourism: item.tourism || "",
             map: item.map || "",
