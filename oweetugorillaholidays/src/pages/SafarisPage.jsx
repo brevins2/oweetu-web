@@ -35,7 +35,7 @@ const SafarisPage = () => {
     const itemsPerPage = 10
 
     const filteredSafaris = safaris.filter((item) => {
-        const matchesCountry = selectedCountry === "all" || item.country === selectedCountry
+        const matchesCountry = selectedCountry === "all" || item?.country.includes(selectedCountry)
         const matchesSearch = item.title.toLowerCase().includes(search.toLowerCase())
         return matchesCountry && matchesSearch
     })

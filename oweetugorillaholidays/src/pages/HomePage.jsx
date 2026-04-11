@@ -282,15 +282,15 @@ const HomePage = () => {
                             Explore the beauty of Uganda through the lens of our unforgettable safaris
                         </motion.p>
 
-                        <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }} className='mt-10 grid grid-cols-1 md:grid-cols-3 gap-4 py-2'>
-                            {safaris.length > 0 ? safaris.slice(0, 3).map((experience, idx) => (
-                                <motion.div key={idx} variants={cardVariants} whileHover={{ scale: 1.03 }} transition={{ duration: 0.3 }} className='shadow-lg rounded-xl px-7 py-10 h-80 text-white grid items-end relative cursor-pointer overflow-hidden' style={{ backgroundImage: `url(${base_url+experience.image})`, backgroundSize: "cover", backgroundPosition: "center" }}>
+                        <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }} className='mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 py-2'>
+                            {safaris.length > 0 ? safaris.slice(0, 3).map((safari, idx) => (
+                                <motion.div key={idx} variants={cardVariants} whileHover={{ scale: 1.03 }} transition={{ duration: 0.3 }} className='shadow-lg rounded-xl px-7 py-10 h-80 text-white grid items-end relative cursor-pointer overflow-hidden' style={{ backgroundImage: `url(${base_url+safari.image})`, backgroundSize: "cover", backgroundPosition: "center" }}>
                                     <div className='absolute inset-0 bg-black/30 rounded-xl hover:bg-black/50 transition duration-300' />
                                     <div className='relative space-y-3'>
-                                        <span className='text-xl font-semibold'>{experience.title}</span>
-                                        <p className='text-lg leading-7 mb-8'>{experience.description.slice(0, 30)}...</p>
+                                        <span className='text-xl font-semibold'>{safari.title}</span>
+                                        <p className='text-lg leading-7 mb-8'>{safari.description.slice(0, 30)}...</p>
                                         <motion.div whileHover={{ x: 10 }} transition={{ duration: 0.2 }}>
-                                            <Link to={experience.location} className="py-3 px-6 rounded font-bold hover:bg-[#8d500a] bg-[#cf7a18] inline-block">View Page</Link>
+                                            <Link to={`/safaris/${safari.id}`} className="py-3 px-6 rounded font-bold hover:bg-[#8d500a] bg-[#cf7a18] inline-block">View Page</Link>
                                         </motion.div>
                                     </div>
                                 </motion.div>
