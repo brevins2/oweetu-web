@@ -359,7 +359,7 @@ function SafarisManager() {
                             </div>
                             <div>
                                 <label className="text-sm font-medium text-gray-700 mb-1 block">Price *</label>
-                                <Input placeholder="e.g., 1500" type="number" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} />
+                                <Input placeholder="e.g., 1500"value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} />
                             </div>
                         </div>
                         <div>

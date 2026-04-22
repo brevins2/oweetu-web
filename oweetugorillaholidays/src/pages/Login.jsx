@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -21,6 +21,13 @@ export default function LoginPage() {
     const [rememberMe, setRememberMe] = useState(!!Cookies.get('rememberedEmail'));
     const { login } = useAuth();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const checkLogin = Cookies.get('adminToken')
+        if (checkLogin) {
+            navigate('/mgt');
+        }
+    }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -99,7 +106,6 @@ export default function LoginPage() {
                         </form>
 
                         <div className="text-center text-xs text-gray-500">
-                            <p>Default admin: development@oweetugorillaholidays.com</p>
                             <p>© {new Date().getFullYear()} Oweetu Gorilla Holidays</p>
                         </div>
                     </CardContent>
