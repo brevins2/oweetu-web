@@ -76,8 +76,11 @@ router.post('/', authenticate, authorize('admin', 'editor'), uploadSingle('image
             console.log('No image file uploaded');
         }
 
-        if (safariData.price) {
-            safariData.price = parseFloat(safariData.price);
+        if (!safariData.price) {
+            return res.status(400).json({
+                success: false,
+                message: 'Price is required'
+            });
         }
 
         const safari = await Safari.create(safariData);
