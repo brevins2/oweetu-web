@@ -2,15 +2,17 @@ import Footer from '@/components/footer'
 import Header1 from '@/components/header1'
 import HeroSlider from '@/components/heroSlider'
 import { GoGlobe } from "react-icons/go";
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaLeaf, FaUsers, FaAward, FaCamera, FaPhoneAlt } from "react-icons/fa";
 import { FaHatCowboy } from "react-icons/fa";
 import { FaShieldAlt } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
+import { TbClock24 } from "react-icons/tb";
+import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
 
 import React, { useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 
 import bgimage1 from "../assets/travel-scaled-bg.png";
@@ -44,19 +46,25 @@ const HomePage = () => {
         getSafaris();
     }, [])
 
+    // Reduced animations - only entry animations, no continuous effects
     const fadeInUp = {
-        hidden: { opacity: 0, y: 60 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+        hidden: { opacity: 0, y: 40 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
     }
 
     const fadeInLeft = {
-        hidden: { opacity: 0, x: -80 },
-        visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: "easeOut" } }
+        hidden: { opacity: 0, x: -50 },
+        visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: "easeOut" } }
     }
 
     const fadeInRight = {
-        hidden: { opacity: 0, x: 80 },
-        visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: "easeOut" } }
+        hidden: { opacity: 0, x: 50 },
+        visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: "easeOut" } }
+    }
+
+    const fadeInScale = {
+        hidden: { opacity: 0, scale: 0.95 },
+        visible: { opacity: 1, scale: 1, transition: { duration: 0.4 } }
     }
 
     const staggerContainer = {
@@ -64,69 +72,80 @@ const HomePage = () => {
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.2,
-                delayChildren: 0.3
+                staggerChildren: 0.1,
+                delayChildren: 0.2
             }
         }
     }
 
     const cardVariants = {
-        hidden: { opacity: 0, y: 50 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+        hidden: { opacity: 0, y: 30 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
     }
 
     const reasons = [
         {
-            icon: <FaHatCowboy color='#C57712' className='mx-auto' size={32} />,
+            icon: <FaHatCowboy size={36} />,
             title: 'Expert Gorilla Trekking Guides',
-            description: 'Travel with best, guides that will make your trip very enjoyable'
+            description: 'Certified local guides with over a decade of experience in primate trekking and wildlife safaris',
+            linear: 'from-amber-50 to-orange-50'
         },
         {
-            icon: <GoGlobe color='#C57712' className='mx-auto' size={32} />,
+            icon: <GoGlobe size={36} />,
             title: 'Authentic Ugandan Experience',
-            description: 'An amazing experience, animals, culture & wildlife in Africa'
+            description: 'Immerse yourself in rich culture, diverse wildlife, and breathtaking landscapes of the Pearl of Africa',
+            linear: 'from-emerald-50 to-teal-50'
         },
         {
-            icon: <MdOutlineVerified color='#C57712' className='mx-auto' size={32} />,
+            icon: <MdOutlineVerified size={36} />,
             title: 'Luxury & Comfort',
-            description: 'Luxury, comfortable & affordable lodges & hotels for your stay'
+            description: 'Hand-picked eco-lodges and premium accommodations that blend luxury with nature',
+            linear: 'from-blue-50 to-indigo-50'
         },
         {
-            icon: <FaShieldAlt color='#C57712' className='mx-auto' size={32} />,
+            icon: <FaShieldAlt size={36} />,
             title: 'Safe & Responsible Travel',
-            description: 'Secure and peaceful travels, great security in the country'
+            description: 'Secure and peaceful travels with comprehensive safety protocols and 24/7 support',
+            linear: 'from-purple-50 to-pink-50'
         }
+    ]
+
+    const stats = [
+        { value: '10+', label: 'Years Experience', icon: <FaAward /> },
+        { value: '5,000+', label: 'Happy Travelers', icon: <FaUsers /> },
+        { value: '50+', label: 'Safari Packages', icon: <GoGlobe /> },
+        { value: '24/7', label: 'Customer Support', icon: <TbClock24 /> },
     ]
 
     const destinations = [
         {
             title: "Uganda",
             image: uganda,
-            description: "Explorer Uganda's exceptional wildlife, savanna, water bodies and diverse culture",
-            location: ""
+            description: "Explore Uganda's exceptional wildlife, savanna plains, and the mighty Nile River",
+            highlights: ["Gorilla Trekking", "Source of the Nile", "Queen Elizabeth Park"]
         },
         {
             title: "Kenya",
             image: kenya,
-            description: "The Masai Mara, national parks and rich savanna, Kenya's tourism stands out",
-            location: ""
+            description: "Witness the Great Migration in Masai Mara and experience Kenya's iconic savanna landscapes",
+            highlights: ["Masai Mara", "Great Migration", "Amboseli"]
         },
         {
             title: "Tanzania",
             image: tz,
-            description: "From the slopes of Kilimanjaro to the Simbas & beautiful coast, Tanzania is rich",
-            location: ""
+            description: "From the slopes of Kilimanjaro to the Serengeti plains, Tanzania offers unparalleled adventure",
+            highlights: ["Serengeti", "Ngorongoro", "Kilimanjaro"]
         },
         {
             title: "Rwanda",
             image: rwanda,
-            description: "Trek the gorilla, chimpanzees & explore national parks in the heart of Rwanda",
-            location: ""
+            description: "Trek mountain gorillas in Volcanoes National Park and explore the land of a thousand hills",
+            highlights: ["Gorilla Trekking", "Nyungwe Forest", "Kigali City"]
         },
     ]
 
     const parks = [
-        {
+        { 
             link: 'https://www.queenelizabethnationalpark.com/',
             name: 'Queen Elizabeth National Park'
         },
@@ -174,42 +193,39 @@ const HomePage = () => {
 
     const reviews = [
         {
-            text: "Oweetu Gorilla Holidays gave us an unforgettable experience in Uganda. The gorilla trek was life-changing.",
-            name: "Sarah M.",
-            country: "UK",
-            hearts: 2
+            text: "An absolutely life-changing experience! The gorilla trek in Bwindi was surreal, and the entire trip was flawlessly organized. Oweetu exceeded all our expectations.",
+            name: "Sarah Mitchell",
+            country: "United Kingdom",
+            rating: 5,
+            image: "https://randomuser.me/api/portraits/women/1.jpg"
         },
         {
-            text: "Everything was perfectly organized. The guides were professional and friendly.",
-            name: "David K.",
+            text: "Professional guides, comfortable lodges, and seamless logistics. The wildlife viewing was spectacular - saw the Big Five and more! Highly recommend Oweetu.",
+            name: "David Chen",
             country: "Germany",
-            hearts: 3
+            rating: 5,
+            image: "https://randomuser.me/api/portraits/men/2.jpg"
         },
         {
-            text: "One of the best safari experiences I’ve ever had. Highly recommend!",
-            name: "Linda R.",
+            text: "From the first email to the final drop-off, everything was perfect. The team's attention to detail and passion for Uganda's wildlife made our safari unforgettable.",
+            name: "Linda Rodriguez",
             country: "USA",
-            hearts: 2
+            rating: 5,
+            image: "https://randomuser.me/api/portraits/women/3.jpg"
         },
         {
-            text: "Uganda is beautiful and this company made our trip very smooth.",
-            name: "James P.",
+            text: "Best decision we made! The value for money is incredible. Our guide was knowledgeable and went above and beyond to ensure we had the best experience.",
+            name: "James Peterson",
             country: "Canada",
-            hearts: 2
-        },
-        {
-            text: "Great customer care and very comfortable lodges. Will come again.",
-            name: "Anna T.",
-            country: "Netherlands",
-            hearts: 2
+            rating: 5,
+            image: "https://randomuser.me/api/portraits/men/4.jpg"
         }
     ];
 
     React.useEffect(() => {
         const interval = setInterval(() => {
             setCurrentReview(prev => (prev + 1) % reviews.length);
-        }, 5000);
-
+        }, 6000);
         return () => clearInterval(interval);
     }, []);
 
@@ -228,133 +244,283 @@ const HomePage = () => {
     };
 
     return (
-        <div>
+        <div className="bg-white">
             <Header1 />
             <HeroSlider />
 
-            <section className='mt-8 bg-white'>
-                <SectionObserver variants={fadeInUp}>
-                    <div className='max-w-7xl text-center mx-auto px-4 md:px-0 py-8 md:py-16'>
-                        <motion.h2 initial={{ opacity: 0, y: -30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className='text-xl md:text-2xl text-[#070e06] font-medium'>
-                            Why Travel With Oweetu Gorilla Holidays?
-                        </motion.h2>
+            {/* Stats Section - Commented out as in original */}
+            {/* <motion.div className="bg-linear-to-r from-[#070e06] to-[#1a2a14] py-12" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.8 }} viewport={{ once: true }}>
+                <div className="max-w-7xl mx-auto px-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                        {stats.map((stat, idx) => (
+                            <motion.div
+                                key={idx}
+                                className="text-center text-white"
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: idx * 0.1 }}
+                                viewport={{ once: true }}
+                            >
+                                <div className="text-3xl mb-2 flex justify-center text-[#C57712]">
+                                    {stat.icon}
+                                </div>
+                                <div className="text-3xl md:text-4xl font-bold">{stat.value}</div>
+                                <div className="text-sm text-gray-300 mt-1">{stat.label}</div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </motion.div> */}
 
-                        <motion.div variants={staggerContainer} initial="hidden" animate="visible" className='mt-2 md:mt-10 grid grid-cols-1 md:grid-cols-4 gap-4 py-2'>
+            <section className='bg-white'>
+                <SectionObserver variants={fadeInUp}>
+                    <div className='max-w-7xl text-center mx-auto px-4 md:px-0 py-12 md:py-20'>
+                        <div>
+                            <span className="text-[#C57712] text-sm md:text-base font-semibold tracking-wide uppercase">Why Choose Us</span>
+                            <h2 className='text-3xl md:text-4xl font-bold text-[#070e06] mt-2 mb-4'>
+                                Create Memories That Last a Lifetime
+                            </h2>
+                            <p className='text-gray-600 max-w-2xl mx-auto'>
+                                We're passionate about creating authentic African safari experiences that exceed expectations
+                            </p>
+                        </div>
+
+                        <motion.div variants={staggerContainer} initial="hidden" animate="visible" className='mt-10 md:mt-16 grid grid-cols-1 md:grid-cols-4 gap-6'>
                             {reasons.map((reason, idx) => (
-                                <motion.div key={idx} variants={cardVariants} whileHover={{ y: -10, transition: { duration: 0.3 } }} className='shadow-xl rounded-xl px-3 md:px-7 py-10 space-y-4 bg-gray-50 w-[95%] mx-auto md:mx-0 md:w-full cursor-pointer'>
-                                    <motion.div whileHover={{ rotate: 360, scale: 1.2 }} transition={{ duration: 0.5 }}>
-                                        {reason.icon}
-                                    </motion.div>
-                                    <span className='text-[#C57712] text-[16px] md:text-lg font-semibold'>{reason.title}</span>
-                                    <p className='text-sm mt-2 md:leading-7'>{reason.description}</p>
+                                <motion.div
+                                    key={idx}
+                                    variants={cardVariants}
+                                    className={`group relative rounded-2xl p-6 md:p-8 bg-linear-to-br ${reason.linear} shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer overflow-hidden`}
+                                >
+                                    <div className="relative z-10">
+                                        <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-5 mx-auto shadow-md">
+                                            <div className="text-[#C57712]">
+                                                {reason.icon}
+                                            </div>
+                                        </div>
+                                        <h3 className='text-[#070e06] text-lg font-bold mb-3'>{reason.title}</h3>
+                                        <p className='text-gray-600 text-sm leading-relaxed'>{reason.description}</p>
+                                    </div>
+                                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-[#C57712] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300" />
                                 </motion.div>
                             ))}
                         </motion.div>
                     </div>
                 </SectionObserver>
 
-                <motion.div className='relative' style={{ backgroundImage: `url(${bgimage1})`, backgroundSize: "cover", backgroundPosition: "center" }} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.8 }} viewport={{ once: true }}>
-                    <div className='absolute inset-0 bg-black/20' />
-                    <div className='max-w-7xl text-left mx-auto py-20 relative grid grid-cols-1 md:grid-cols-5 justify-items-end text-white'>
-                        <div className='col-span-3' />
-                        <div className='col-span-2'>
-                            <SectionObserver variants={fadeInRight}>
-                                <h2 className='text-xl md:text-2xl font-bold'>Discover the Pearl of Africa</h2>
-                                <p className='md:text-lg mt-2 leading-8 font-normal mb-10'>
-                                    Uganda, known as the "Pearl of Africa" offers lush forests, Savannah plains, crate lakes and rare wildlife. From gorilla trekking in Bwindi Impenetrable National Park to boot cruises along the Nile in Murchison Falls National Park, every journey is unforgettable. <br /><br />
-
-                                    Diver culture, vibrant cities and warm hospitality make Uganda a must-visit destination for nature lovers and adventure seekers alike.
-                                </p>
-                                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                    <Link to="/bookings" className="py-4 px-6 rounded font-bold hover:bg-[#b96b11] bg-[#cf7a18] inline-block">Start Planning Today</Link>
-                                </motion.div>
-                            </SectionObserver>
-                        </div>
-                    </div>
-                </motion.div>
-
-                <SectionObserver variants={fadeInUp}>
-                    <div className='max-w-7xl mx-auto py-6 md:py-16 px-4 md:px-0'>
-                        <motion.h2 initial={{ opacity: 0, y: -20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className='text-xl md:text-2xl text-[#070e06] text-center font-bold'>
-                            Our Experience Gallery
-                        </motion.h2>
-                        <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.2 }} viewport={{ once: true }} className="text-gray-500 md:text-lg text-center">
-                            Explore the beauty of Uganda through the lens of our unforgettable safaris
-                        </motion.p>
-
-                        <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }} className='mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 py-2'>
-                            {safaris.length > 0 ? safaris.slice(0, 3).map((safari, idx) => (
-                                <motion.div key={idx} variants={cardVariants} whileHover={{ scale: 1.03 }} transition={{ duration: 0.3 }} className='shadow-lg rounded-xl px-7 py-10 h-80 text-white grid items-end relative cursor-pointer overflow-hidden' style={{ backgroundImage: `url(${base_url+safari.image})`, backgroundSize: "cover", backgroundPosition: "center" }}>
-                                    <div className='absolute inset-0 bg-black/30 rounded-xl hover:bg-black/50 transition duration-300' />
-                                    <div className='relative space-y-3'>
-                                        <span className='text-xl font-semibold'>{safari.title}</span>
-                                        <p className='text-lg leading-7 mb-8'>{safari.description.slice(0, 30)}...</p>
-                                        <motion.div whileHover={{ x: 10 }} transition={{ duration: 0.2 }}>
-                                            <Link to={`/safaris/${safari.id}`} className="py-3 px-6 rounded font-bold hover:bg-[#8d500a] bg-[#cf7a18] inline-block">View Page</Link>
-                                        </motion.div>
-                                    </div>
-                                </motion.div>
-                            )): <h4 className='italic text-gray-500'>Safari packages loading</h4>}
-                        </motion.div>
-                    </div>
-                </SectionObserver>
-
-                <motion.div className='relative' style={{ backgroundImage: `url(${bgimage2})`, backgroundSize: "cover", backgroundPosition: "center" }} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.8 }} viewport={{ once: true }}>
-                    <div className='absolute inset-0 bg-black/10' />
-                    <div className='max-w-7xl text-left mx-auto my-10 py-20 relative md:min-h-100'>
-                        <div className='grid grid-cols-1 md:grid-cols-3 justify-items-end w-full px-6 md:px-0 text-white'>
+                {/* Discover the Pearl of Africa Section - Entry animation only, no parallax continuous effect */}
+                <motion.div
+                    className='relative overflow-hidden'
+                    style={{ backgroundImage: `url(${bgimage1})`, backgroundSize: "cover", backgroundPosition: "center" }}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
+                >
+                    <div className='absolute inset-0 bg-linear-to-r from-black/80 to-black/40' />
+                    <div className='max-w-7xl mx-auto py-20 md:py-28 relative px-4 md:px-6'>
+                        <div className='grid grid-cols-1 md:grid-cols-2 gap-12 items-center'>
                             <SectionObserver variants={fadeInLeft}>
-                                <div className='col-span-1 space-y-6'>
-                                    <h2 className='text-xl md:text-3xl font-bold'>What Our Clients say</h2>
-                                    <motion.div className='space-y-4 md:mb-10' key={currentReview} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-                                        <div className='flex gap-2'>
-                                            {[0, 1, 2, 3, 4].map((_, i) => (
-                                                <FaStar key={i} className='text-[#cf7a18] fill-[#cf7a18]' size={20} />
-                                            ))}
-                                        </div>
-
-                                        <p className='text-lg mt-2 leading-7 font-medium'>
-                                            "{reviews[currentReview].text}"
-                                        </p>
-
-                                        <span className="rounded font-bold text-[#cf7a18]">
-                                            {reviews[currentReview].name}, {reviews[currentReview].country}
-                                        </span>
-
-                                        <div className='flex gap-2 mt-4'>
-                                            {[...Array(reviews[currentReview].hearts)].map((_, i) => (
-                                                <motion.div key={i} initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: i * 0.1, type: "spring", stiffness: 200 }}>
-                                                    <FaHeart className='text-[#aa049c] fill-[#aa049c]' size={20} />
-                                                </motion.div>
-                                            ))}
-                                        </div>
-                                    </motion.div>
+                                <div className='text-white'>
+                                    <span className="text-[#C57712] text-sm font-semibold tracking-wide uppercase">Discover</span>
+                                    <h2 className='text-3xl md:text-4xl font-bold mt-2 mb-4'>The Pearl of Africa</h2>
+                                    <p className='text-gray-200 text-lg leading-relaxed mb-6'>
+                                        Uganda, known as the <span className="text-[#C57712] font-semibold">"Pearl of Africa"</span> offers lush forests, savannah plains, crater lakes, and rare wildlife.
+                                        From gorilla trekking in Bwindi Impenetrable National Park to boat cruises along the Nile in Murchison Falls National Park,
+                                        every journey is unforgettable.
+                                    </p>
+                                    <div className="flex flex-wrap gap-4 mb-8">
+                                        {["Gorilla Trekking", "Wildlife Safaris", "Bird Watching", "Cultural Tours"].map((item, idx) => (
+                                            <span key={idx} className="px-3 py-1 bg-white/10 rounded-full text-sm backdrop-blur-sm">
+                                                {item}
+                                            </span>
+                                        ))}
+                                    </div>
+                                    <div>
+                                        <Link to="/bookings" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold bg-linear-to-r from-[#C57712] to-[#e0962c] text-white hover:shadow-lg transition-shadow duration-300">
+                                            Start Planning Today
+                                            <FaLeaf className="text-sm" />
+                                        </Link>
+                                    </div>
                                 </div>
                             </SectionObserver>
-                            <div className='col-span-2' />
+                            <SectionObserver variants={fadeInRight}>
+                                <div className="grid grid-cols-2 gap-4">
+                                    {[uganda, kenya, tz, rwanda].slice(0, 4).map((img, idx) => (
+                                        <div
+                                            key={idx}
+                                            className="rounded-2xl overflow-hidden shadow-xl transition-transform duration-300 hover:scale-105"
+                                        >
+                                            <img src={img} alt="Uganda safari" className="w-full h-32 md:h-40 object-cover" />
+                                        </div>
+                                    ))}
+                                </div>
+                            </SectionObserver>
                         </div>
                     </div>
                 </motion.div>
 
+                {/* Featured Safaris Section - Entry animation only */}
                 <SectionObserver variants={fadeInUp}>
-                    <div className='max-w-7xl mx-auto py-6 md:py-16 px-4 md:px-0'>
-                        <motion.h2 initial={{ opacity: 0, y: -20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} viewport={{ once: true }} className='text-xl md:text-2xl text-[#070e06] text-center font-bold'>
-                            Our Destinations
-                        </motion.h2>
-                        <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5, delay: 0.2 }} viewport={{ once: true }} className="text-gray-500 md:text-lg text-center">
-                            Travel through East Africa to a destination of your choice
-                        </motion.p>
+                    <div className='max-w-7xl mx-auto py-12 md:py-20 px-4 md:px-0'>
+                        <div className="text-center mb-10">
+                            <span className="text-[#C57712] text-sm font-semibold tracking-wide uppercase">Featured Adventures</span>
+                            <h2 className='text-3xl md:text-4xl font-bold text-[#070e06] mt-2 mb-4'>
+                                Our Most Popular Safaris
+                            </h2>
+                            <p className='text-gray-600 max-w-2xl mx-auto'>
+                                Carefully curated safari experiences that showcase the best of East Africa
+                            </p>
+                        </div>
 
-                        <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }} className='mt-2 md:mt-6 grid grid-cols-1 md:grid-cols-4 gap-4 py-2'>
+                        <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }} className='mt-8 grid grid-cols-1 md:grid-cols-3 gap-6'>
+                            {safaris.length > 0 ? safaris.slice(0, 3).map((safari, idx) => (
+                                <motion.div key={idx} variants={cardVariants} className='group relative rounded-2xl overflow-hidden shadow-lg cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1'>
+                                    <div className='relative h-80 overflow-hidden'>
+                                        <img
+                                            src={base_url + safari.image}
+                                            alt={safari.title}
+                                            className='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'
+                                        />
+                                        <div className='absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent' />
+                                        <div className='absolute bottom-0 left-0 right-0 p-6 text-white'>
+                                            <h3 className='text-xl font-bold mb-2'>{safari.title}</h3>
+                                            <p className='text-sm text-gray-200 mb-4'>{safari.description.slice(0, 80)}...</p>
+                                            <div>
+                                                <Link to={`/safaris/${safari.id}`} className="inline-flex items-center gap-2 text-[#C57712] font-semibold hover:text-[#e0962c] transition-colors">
+                                                    Discover Safari →
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            )) : (
+                                <div className="col-span-3 text-center py-10">
+                                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#C57712] mx-auto"></div>
+                                    <p className="mt-4 text-gray-500">Loading amazing safaris...</p>
+                                </div>
+                            )}
+                        </motion.div>
+
+                        <div className="text-center mt-10">
+                            <Link to="/safaris" className="inline-flex items-center gap-2 px-8 py-3 rounded-xl font-semibold border-2 border-[#C57712] text-[#C57712] hover:bg-[#C57712] hover:text-white transition-colors duration-300">
+                                View All Safaris
+                                <GoGlobe size={18} />
+                            </Link>
+                        </div>
+                    </div>
+                </SectionObserver>
+
+                {/* Testimonials Section - Entry animation only, no motion on hover */}
+                <motion.div
+                    className='relative py-20 bg-linear-to-br from-gray-50 to-white'
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true }}
+                >
+                    <div className='max-w-7xl mx-auto px-4'>
+                        <div className="text-center mb-6">
+                            <span className="text-[#C57712] text-sm font-semibold tracking-wide uppercase">Testimonials</span>
+                            <h2 className='text-3xl md:text-4xl font-bold text-[#070e06] mt-2 mb-1'>
+                                What Our Travelers Say
+                            </h2>
+                            <p className='text-gray-600 max-w-2xl mx-auto'>
+                                Real experiences from guests who explored Africa with us
+                            </p>
+                        </div>
+
+                        <div className="relative">
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={currentReview}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -20 }}
+                                    transition={{ duration: 0.4 }}
+                                    className="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl p-8 md:p-10"
+                                >
+                                    <div className="flex items-center gap-4 mb-6">
+                                        <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-200 uppercase flex items-center justify-center font-bold text-2xl">
+                                            <span>{reviews[currentReview].name[0]}{reviews[currentReview].name.split(' ')[1]?.[0] || ''}</span>
+                                        </div>
+                                        <div>
+                                            <h4 className="font-bold text-gray-800">{reviews[currentReview].name}</h4>
+                                            <p className="text-sm text-gray-500">{reviews[currentReview].country}</p>
+                                            <div className="flex gap-1 mt-1">
+                                                {[...Array(reviews[currentReview].rating)].map((_, i) => (
+                                                    <FaStar key={i} className="text-[#C57712] text-sm" />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="relative">
+                                        <svg className="absolute -top-2 -left-2 w-8 h-8 text-gray-200" fill="currentColor" viewBox="0 0 32 32">
+                                            <path d="M10 8c-4.4 0-8 3.6-8 8v8h8v-8H4c0-3.3 2.7-6 6-6V8zm16 0c-4.4 0-8 3.6-8 8v8h8v-8h-6c0-3.3 2.7-6 6-6V8z" />
+                                        </svg>
+                                        <p className="text-gray-700 text-lg leading-relaxed pl-6">
+                                            "{reviews[currentReview].text}"
+                                        </p>
+                                    </div>
+                                </motion.div>
+                            </AnimatePresence>
+
+                            {/* Dots Navigation */}
+                            <div className="flex justify-center gap-2 mt-6">
+                                {reviews.map((_, idx) => (
+                                    <button
+                                        key={idx}
+                                        onClick={() => setCurrentReview(idx)}
+                                        className={`w-2 h-2 rounded-full transition-all duration-300 ${currentReview === idx ? 'w-6 bg-[#C57712]' : 'bg-gray-300'
+                                            }`}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </motion.div>
+
+                {/* Destinations Section - Entry animation only */}
+                <SectionObserver variants={fadeInUp}>
+                    <div className='max-w-7xl mx-auto py-12 md:py-20 px-4 md:px-0'>
+                        <div className="text-center mb-10">
+                            <span className="text-[#C57712] text-sm font-semibold tracking-wide uppercase">Explore</span>
+                            <h2 className='text-3xl md:text-4xl font-bold text-[#070e06] mt-2 mb-4'>
+                                Our Top Destinations
+                            </h2>
+                            <p className='text-gray-600 max-w-2xl mx-auto'>
+                                Discover the diverse landscapes and wildlife of East Africa
+                            </p>
+                        </div>
+
+                        <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }} className='mt-8 grid grid-cols-1 md:grid-cols-4 gap-6'>
                             {destinations.map((destination, idx) => (
-                                <motion.div key={idx} variants={cardVariants} whileHover={{ y: -10 }} className={`shadow-lg rounded-xl text-white grid ${idx % 2 > 0 ? 'bg-[#b97635]' : 'bg-[#374b28]'} cursor-pointer overflow-hidden`}>
-                                    <motion.img src={destination.image} alt={destination.title} className='h-56 w-full object-cover rounded-t-xl' whileHover={{ scale: 1.1 }} transition={{ duration: 0.4 }} />
-                                    <div className='p-3 pb-8 text-center'>
-                                        <span className={`text-2xl md:text-3xl pb-2 md:pb-0 font-semibold ${idx % 2 === 0 ? 'text-[#b97635]' : 'text-[#374b28]'}`}>{destination.title}</span>
-                                        <p className='text-lg leading-7 mb-6'>{destination.description}</p>
-                                        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                            <Link to={destination.location} className={`py-3 px-6 rounded font-bold inline-block ${idx % 2 === 0 ? 'bg-[#b97635]' : 'bg-[#374b28]'}`}>View Page</Link>
-                                        </motion.div>
+                                <motion.div
+                                    key={idx}
+                                    variants={cardVariants}
+                                    className='group rounded-2xl overflow-hidden shadow-lg bg-white cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1'
+                                >
+                                    <div className='relative h-56 overflow-hidden'>
+                                        <img
+                                            src={destination.image}
+                                            alt={destination.title}
+                                            className='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'
+                                        />
+                                        <div className='absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent' />
+                                        <h3 className='absolute bottom-4 left-4 text-white text-2xl font-bold'>{destination.title}</h3>
+                                    </div>
+                                    <div className='p-5'>
+                                        <p className='text-gray-600 text-sm mb-4'>{destination.description}</p>
+                                        <div className="flex flex-wrap gap-2 mb-4">
+                                            {destination.highlights.map((highlight, i) => (
+                                                <span key={i} className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+                                                    {highlight}
+                                                </span>
+                                            ))}
+                                        </div>
+                                        <Link to={`/destinations/${destination.title.toLowerCase()}`} className="text-[#C57712] font-semibold text-sm hover:text-[#e0962c] transition-colors inline-flex items-center gap-1">
+                                            Explore {destination.title} →
+                                        </Link>
                                     </div>
                                 </motion.div>
                             ))}
@@ -362,26 +528,90 @@ const HomePage = () => {
                     </div>
                 </SectionObserver>
 
-                <motion.div className='bg-[#e0e0e0] w-full py-10' initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.6 }} viewport={{ once: true }}>
-                    <div className='grid grid-cols-1 md:grid-cols-2 gap-8 max-w-7xl mx-auto my-10 items-center'>
-                        <motion.div className='relative h-full md:h-125 overflow-hidden rounded-lg' whileHover={{ scale: 1.02 }} transition={{ duration: 0.4 }}>
-                            <div className='absolute inset-0 bg-black/20' />
-                            <img src={tanzania} alt="lions" className='h-full w-full object-cover md:rounded' />
-                        </motion.div>
-                        <SectionObserver variants={fadeInRight}>
-                            <div className='text-left space-y-2 px-4 md:px-0'>
-                                <h2 className='text-xl md:text-2xl text-[#070e06] font-bold'>Top National Parks to visit</h2>
+                {/* National Parks Section - Entry animation only */}
+                <motion.div
+                    className='bg-linear-to-br from-gray-50 to-white w-full py-16'
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                    viewport={{ once: true }}
+                >
+                    <div className='max-w-7xl mx-auto px-4'>
+                        <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 items-center'>
+                            <SectionObserver variants={fadeInLeft}>
+                                <div>
+                                    <div className="relative rounded-2xl overflow-hidden shadow-xl transition-transform duration-300 hover:scale-105">
+                                        <img src={tanzania} alt="Wildlife in Africa" className='w-full h-full object-cover' />
+                                        <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent flex items-end p-6">
+                                            <div className="text-white">
+                                                <p className="text-sm font-semibold">Wildlife Experience</p>
+                                                <p className="text-lg font-bold">Witness the Big Five in their natural habitat</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </SectionObserver>
 
-                                <motion.div variants={staggerContainer} initial="hidden" animate="visible" className='grid grid-cols-1 gap-3 mt-6'>
-                                    {parks.map((park, idx) => (
-                                        <motion.a key={idx} href={park.link} target='_blank' variants={cardVariants} whileHover={{ x: 10, color: "#e47e0b" }} className='flex gap-4 hover:text-[#e47e0b] hover:font-bold text-[15px] cursor-pointer transition-all duration-300'>
-                                            <FaCheckCircle size={17} className='text-green-500' />
-                                            {park.name}
-                                        </motion.a>
-                                    ))}
-                                </motion.div>
-                            </div>
-                        </SectionObserver>
+                            <SectionObserver variants={fadeInRight}>
+                                <div className='space-y-4'>
+                                    <div>
+                                        <span className="text-[#C57712] text-sm font-semibold tracking-wide uppercase">National Parks</span>
+                                        <h2 className='text-2xl md:text-3xl font-bold text-[#070e06] mt-2 mb-4'>
+                                            Top National Parks to Visit
+                                        </h2>
+                                        <p className='text-gray-600'>
+                                            Explore Uganda's most spectacular national parks, each offering unique wildlife experiences and breathtaking landscapes
+                                        </p>
+                                    </div>
+
+                                    <div className='grid grid-cols-1 gap-3 mt-6'>
+                                        {parks.map((park, idx) => (
+                                            <a key={idx} href={park.link} target='_blank' rel="noopener noreferrer" className='group flex items-start gap-3 rounded-xl hover:bg-white/50 transition-colors duration-300 p-2 -m-2'>
+                                                <FaCheckCircle className='text-[#C57712] mt-0.5 shrink-0' size={18} />
+                                                <div>
+                                                    <span className='font-semibold text-gray-800 group-hover:text-[#C57712] transition-colors'>
+                                                        {park.name}
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        ))}
+                                    </div>
+
+                                    {/* <div>
+                                        <Link to="/destinations" className="inline-flex items-center gap-2 mt-4 px-6 py-3 bg-[#C57712] text-white rounded-xl font-semibold hover:bg-[#e0962c] transition-colors duration-300 shadow-md">
+                                            Explore All Parks
+                                            <GoGlobe size={18} />
+                                        </Link>
+                                    </div> */}
+                                </div>
+                            </SectionObserver>
+                        </div>
+                    </div>
+                </motion.div>
+
+                {/* CTA Section - Entry animation only */}
+                <motion.div
+                    className="bg-linear-to-r from-[#070e06] to-[#1a2a14] py-16"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ duration: 0.5 }}
+                    viewport={{ once: true }}
+                >
+                    <div className="max-w-4xl mx-auto text-center px-4">
+                        <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                            Ready for Your African Adventure?
+                        </h2>
+                        <p className="text-gray-300 text-lg mb-8">
+                            Let us help you plan the safari of your dreams. Contact our travel experts today!
+                        </p>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                            <Link to="/contact" className="px-8 py-3 bg-[#C57712] text-white rounded-xl font-semibold hover:bg-[#e0962c] transition-colors duration-300 shadow-lg">
+                                Plan Your Safari
+                            </Link>
+                            <Link to="/safaris" className="px-8 py-3 bg-transparent border-2 border-white text-white rounded-xl font-semibold hover:bg-white hover:text-[#070e06] transition-colors duration-300">
+                                Browse Safaris
+                            </Link>
+                        </div>
                     </div>
                 </motion.div>
             </section>

@@ -1,5 +1,5 @@
-import React from "react"
-import { Route, Routes, Navigate } from "react-router-dom"
+import React, { useEffect } from "react"
+import { Route, Routes, Navigate, useLocation } from "react-router-dom"
 import SafariDetails from "./pages/SafariDetails"
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -49,6 +49,42 @@ const ProtectedRoute = ({ children }) => {
 };
 
 function AppRoutes() {
+  const location = useLocation();
+
+  const getPageTitle = (pathname) => {
+    const titles = {
+      '/': 'Home',
+      '/contact': 'Contact Us',
+      '/about': 'About Us',
+      '/safaris': 'Safaris',
+      '/destinations': 'Destinations',
+      '/gallery': 'Gallery',
+      '/access': 'Access',
+      '/bookings': 'Bookings',
+      '/mgt': 'Management'
+    };
+
+    if (pathname.startsWith('/safaris/')) {
+      return 'Safari Details';
+    }
+    if (pathname.startsWith('/destinations/')) {
+      if (pathname.includes('/country/')) {
+        return 'Country Details';
+      }
+      return 'Destination Details';
+    }
+    if (pathname.startsWith('/mgt/')) {
+      return 'Management Dashboard';
+    }
+
+    return titles[pathname] || 'Page Not Found';
+  };
+
+  useEffect(() => {
+    const pageTitle = getPageTitle(location.pathname);
+    document.title = `${pageTitle} - Oweetu Gorilla Holidays`;
+  }, [location]);
+
   return (
     <Routes>
       <Route path="/" element={<LazyLoader><HomePage /></LazyLoader>} />
