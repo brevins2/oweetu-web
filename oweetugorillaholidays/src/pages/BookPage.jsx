@@ -5,10 +5,8 @@ import React, { useState } from 'react'
 import { LuMail } from "react-icons/lu";
 import { TbPhoneRinging } from "react-icons/tb";
 import { FaMaximize } from 'react-icons/fa6'
-import { motion, AnimatePresence } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
 
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
 import uganda from '@/assets/Uganda-map.jpg'
 import kenya from '@/assets/kenya-map.jpg'
@@ -16,10 +14,9 @@ import tanzania from '@/assets/tanzania-map.jpg'
 import rwanda from '@/assets/rwanda-map.png'
 
 const BookPage = () => {
-    const [newTab, setNewTab] = useState('Uganda');
-    const [newUrl, setNewUrl] = useState(uganda)
+    const [activeTab, setActiveTab] = useState('Uganda');
+    const [currentMapUrl, setCurrentMapUrl] = useState(uganda)
     const [showMap, setShowMap] = useState(false)
-    const [zoomStyle, setZoomStyle] = useState({});
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -30,70 +27,6 @@ const BookPage = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitSuccess, setSubmitSuccess] = useState(false);
 
-    // Animation variants
-    const fadeInUp = {
-        hidden: { opacity: 0, y: 60 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
-    }
-
-    const fadeInLeft = {
-        hidden: { opacity: 0, x: -80 },
-        visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: "easeOut" } }
-    }
-
-    const fadeInRight = {
-        hidden: { opacity: 0, x: 80 },
-        visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: "easeOut" } }
-    }
-
-    const staggerContainer = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1,
-                delayChildren: 0.2
-            }
-        }
-    }
-
-    const itemVariants = {
-        hidden: { opacity: 0, x: -20 },
-        visible: { opacity: 1, x: 0, transition: { duration: 0.4 } }
-    }
-
-    const formVariants = {
-        hidden: { opacity: 0, scale: 0.95 },
-        visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" } }
-    }
-
-    const tabVariants = {
-        inactive: { scale: 1, backgroundColor: "transparent" },
-        active: { scale: 1.05, backgroundColor: "#4ade80", color: "white" },
-        hover: { scale: 1.02, transition: { duration: 0.2 } }
-    }
-
-    // Custom hook for scroll animations
-    const SectionObserver = ({ children, variants, className = "" }) => {
-        const [ref, inView] = useInView({
-            triggerOnce: true,
-            threshold: 0.1,
-            rootMargin: "-50px 0px"
-        });
-
-        return (
-            <motion.div
-                ref={ref}
-                initial="hidden"
-                animate={inView ? "visible" : "hidden"}
-                variants={variants}
-                className={className}
-            >
-                {children}
-            </motion.div>
-        );
-    };
-
     const locations = [
         {
             icon: <LuMail color='#C57712' size={18} />,
@@ -102,42 +35,25 @@ const BookPage = () => {
         },
         {
             icon: <TbPhoneRinging color='#C57712' size={20} />,
-            address: "+256765390155",
+            address: "+256 765 390 155",
             link: "tel:+256765390155"
         },
     ]
 
+    const countryTabs = [
+        { name: 'Uganda', map: uganda },
+        { name: 'Kenya', map: kenya },
+        { name: 'Tanzania', map: tanzania },
+        { name: 'Rwanda', map: rwanda },
+    ]
+
     const handleTabChange = (tab) => {
-        setNewTab(tab)
-        countryUrl(tab)
+        setActiveTab(tab.name)
+        setCurrentMapUrl(tab.map)
     }
 
     const maximizeImage = () => {
         setShowMap(true)
-    }
-
-    const countryUrl = (ctry) => {
-        let url = '';
-
-        switch (ctry) {
-            case 'Uganda':
-                url = uganda
-                break;
-            case 'Kenya':
-                url = kenya
-                break;
-            case 'Tanzania':
-                url = tanzania
-                break;
-            case 'Rwanda':
-                url = rwanda
-                break;
-            default:
-                url = uganda
-                break;
-        }
-
-        setNewUrl(url)
     }
 
     const handleInputChange = (e) => {
@@ -147,6 +63,17 @@ const BookPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        
+        // Basic validation
+        if (!formData.name) {
+            alert("Please enter your name");
+            return;
+        }
+        if (!formData.destination) {
+            alert("Please enter your destination");
+            return;
+        }
+
         setIsSubmitting(true);
 
         // Simulate form submission
@@ -164,320 +91,250 @@ const BookPage = () => {
         }, 1500);
     }
 
-    const handleMouseMove = (e) => {
-        const { left, top, width, height } = e.target.getBoundingClientRect();
-
-        const x = ((e.clientX - left) / width) * 100;
-        const y = ((e.clientY - top) / height) * 100;
-
-        setZoomStyle({
-            transformOrigin: `${x}% ${y}%`,
-            transform: "scale(2)"
-        });
-    };
-
-    const resetZoom = () => {
-        setZoomStyle({
-            transform: "scale(1)"
-        });
-    };
-
     return (
         <div>
             <Header2 />
-            <Banner title="Book your Safaris" />
+            <Banner title="Book Your Safari" />
 
-            <section className='bg-[#f3f3f3] py-4 md:py-8'>
-                <div className='grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-8 max-w-7xl mx-auto items-start'>
-
+            <section className='bg-gray-100 py-8 md:py-12'>
+                <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 max-w-7xl mx-auto px-4 md:px-6'>
+                    
                     {/* Left Column - Info & Map */}
-                    <SectionObserver variants={fadeInLeft}>
-                        <div className='text-left space-y-0 px-4 md:px-0'>
-                            <motion.h2
-                                className='text-lg md:text-xl text-[#070e06] font-bold'
-                                initial={{ opacity: 0, y: -20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5 }}
-                            >
-                                Find your trip!
-                            </motion.h2>
-                            <motion.p
-                                className='leading-7 text-[15.7px] text-gray-500'
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.2, duration: 0.5 }}
-                            >
-                                You will get response in an 30 minutes, please feel free to use our email and phone number(on WhatsApp) for more inquiries
-                            </motion.p>
-
-                            <motion.div
-                                variants={staggerContainer}
-                                initial="hidden"
-                                animate="visible"
-                                className='mt-2 grid grid-cols-1 gap-2 py-2'
-                            >
-                                {locations.map((location, idx) => (
-                                    <motion.div
-                                        key={idx}
-                                        variants={itemVariants}
-                                        whileHover={{ x: 10 }}
-                                        className='flex items-center gap-2 space-y-2 bg-[#f3f3f3]'
-                                    >
-                                        {location.icon}
-                                        {location.link ?
-                                            <a href={location.link} className='text-[#C57712] hover:text-[#279c09] text-[16px] md:text-[15.7px] font-medium transition-colors duration-300'>
-                                                {location.address}
-                                            </a>
-                                            :
-                                            <span className='text-[#C57712] text-[16px] md:text-[15.7px] font-medium'>{location.address}</span>
-                                        }
-                                    </motion.div>
-                                ))}
-                            </motion.div>
-
-                            <motion.div
-                                className='mt-2'
-                                initial={{ opacity: 0, y: 30 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.4, duration: 0.5 }}
-                            >
-                                <h2 className='text-[16px] text-[#444644] font-semibold'>Countries and places</h2>
-
-                                <div className='flex gap-2 my-2'>
-                                    {['Uganda', 'Kenya', 'Tanzania', 'Rwanda'].map((tab, idx) => (
-                                        <motion.span
-                                            key={idx}
-                                            className={`cursor-pointer py-1 px-2 md:px-4 font-bold rounded transition-all duration-300 ${newTab === tab ? 'text-white bg-green-400 border-b-2 border-green-600' : 'text-gray-600 hover:bg-green-100'
-                                                }`}
-                                            variants={tabVariants}
-                                            initial="inactive"
-                                            animate={newTab === tab ? "active" : "inactive"}
-                                            whileHover="hover"
-                                            onClick={() => handleTabChange(tab)}
-                                        >
-                                            {tab}
-                                        </motion.span>
-                                    ))}
-                                </div>
-
-                                <motion.div
-                                    className='relative overflow-hidden rounded-lg'
-                                    whileHover={{ scale: 1.02 }}
-                                    transition={{ duration: 0.3 }}
-                                >
-                                    <AnimatePresence mode="wait">
-                                        <motion.img
-                                            key={newUrl}
-                                            src={newUrl}
-                                            alt="country-tours"
-                                            className='h-80 w-full rounded object-cover'
-                                            initial={{ opacity: 0, scale: 0.9 }}
-                                            animate={{ opacity: 1, scale: 1 }}
-                                            exit={{ opacity: 0, scale: 0.9 }}
-                                            transition={{ duration: 0.4 }}
-                                        />
-                                    </AnimatePresence>
-                                    <motion.div
-                                        className='absolute bottom-2 right-2 z-20'
-                                        whileHover={{ scale: 1.1 }}
-                                        whileTap={{ scale: 0.9 }}
-                                    >
-                                        <FaMaximize className='text-white bg-green-500 p-1.5 rounded-full cursor-pointer text-2xl hover:bg-green-600 transition-colors' onClick={maximizeImage} />
-                                    </motion.div>
-                                </motion.div>
-                            </motion.div>
+                    <div>
+                        <div className='mb-4'>
+                            <h2 className='text-xl md:text-2xl font-bold text-gray-800 mb-2'>
+                                Find Your Trip!
+                            </h2>
+                            <p className='text-gray-600 text-sm leading-relaxed'>
+                                You will receive a response within 30 minutes. Feel free to use our email and phone number (on WhatsApp) for more inquiries.
+                            </p>
                         </div>
-                    </SectionObserver>
+
+                        {/* Contact Info */}
+                        <div className='space-y-2 mb-6'>
+                            {locations.map((location, idx) => (
+                                <div key={idx} className='flex items-center gap-3'>
+                                    {location.icon}
+                                    {location.link ? (
+                                        <a href={location.link} className='text-[#C57712] hover:text-[#a5630e] text-sm font-medium'>
+                                            {location.address}
+                                        </a>
+                                    ) : (
+                                        <span className='text-[#C57712] text-sm font-medium'>{location.address}</span>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Country Tabs */}
+                        <div>
+                            <h3 className='text-gray-700 font-semibold text-sm mb-3'>Countries and Places</h3>
+                            
+                            <div className='flex flex-wrap gap-2 mb-4'>
+                                {countryTabs.map((tab) => (
+                                    <button
+                                        key={tab.name}
+                                        onClick={() => handleTabChange(tab)}
+                                        className={`px-4 py-1.5 rounded font-medium text-sm transition-colors ${
+                                            activeTab === tab.name 
+                                                ? 'bg-[#C57712] text-white' 
+                                                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                        }`}
+                                    >
+                                        {tab.name}
+                                    </button>
+                                ))}
+                            </div>
+
+                            {/* Map Image */}
+                            <div className='relative rounded-lg overflow-hidden border border-gray-200 bg-white'>
+                                <img
+                                    src={currentMapUrl}
+                                    alt={`Map of ${activeTab}`}
+                                    className='w-full h-80 object-contain bg-gray-50'
+                                />
+                                <button
+                                    onClick={maximizeImage}
+                                    className='absolute bottom-3 right-3 bg-black/60 hover:bg-black/80 p-1.5 rounded-lg transition-colors'
+                                    aria-label="View full screen map"
+                                >
+                                    <FaMaximize className='text-white text-base' />
+                                </button>
+                            </div>
+                            <p className='text-xs text-gray-500 mt-2 text-center'>
+                                Click the expand icon to view the map in full screen
+                            </p>
+                        </div>
+                    </div>
 
                     {/* Right Column - Booking Form */}
-                    <SectionObserver variants={fadeInRight}>
-                        <div className='text-left space-y-6 px-4 md:px-0'>
-                            <motion.h2
-                                className='text-xl md:text-2xl text-[#070e06] font-medium'
-                                initial={{ opacity: 0, y: -20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5 }}
-                            >
-                                Book your trip
-                            </motion.h2>
-
-                            <motion.form
-                                variants={formVariants}
-                                initial="hidden"
-                                animate="visible"
-                                onSubmit={handleSubmit}
-                                className='border-2 border-gray-400 rounded-lg p-6 bg-[#f7f4ed] space-y-3'
-                            >
-                                <motion.div
-                                    className="flex flex-col gap-2"
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.1 }}
-                                >
-                                    <label htmlFor="name">Name <span className="text-red-500">*</span></label>
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        id="name"
-                                        value={formData.name}
-                                        onChange={handleInputChange}
-                                        className='border-2 rounded h-10 w-full border-gray-300 p-2 px-4 ring-0 focus:right-0 focus:border-gray-300 bg-white transition-all duration-300 focus:ring-2 focus:ring-green-300 outline-none'
-                                        placeholder='Name'
-                                        required
-                                    />
-                                </motion.div>
-
-                                <div className='grid grid-cols-1 md:grid-cols-2 gap-3'>
-                                    <motion.div
-                                        className="flex flex-col gap-2"
-                                        initial={{ opacity: 0, x: -20 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        transition={{ delay: 0.2 }}
-                                    >
-                                        <label htmlFor="email">Email</label>
-                                        <input
-                                            type="email"
-                                            name="email"
-                                            id="email"
-                                            value={formData.email}
-                                            onChange={handleInputChange}
-                                            className='border-2 rounded h-10 w-full border-gray-300 p-2 px-4 ring-0 focus:right-0 focus:border-gray-300 bg-white transition-all duration-300 focus:ring-2 focus:ring-green-300 outline-none'
-                                            placeholder='Email'
-                                        />
-                                    </motion.div>
-                                    <motion.div
-                                        className="flex flex-col gap-2"
-                                        initial={{ opacity: 0, x: 20 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        transition={{ delay: 0.2 }}
-                                    >
-                                        <label htmlFor="telephone">Telephone</label>
-                                        <input
-                                            type="tel"
-                                            name="telephone"
-                                            id="telephone"
-                                            value={formData.telephone}
-                                            onChange={handleInputChange}
-                                            className='border-2 rounded h-10 w-full border-gray-300 p-2 px-4 ring-0 focus:right-0 focus:border-gray-300 bg-white transition-all duration-300 focus:ring-2 focus:ring-green-300 outline-none'
-                                            placeholder='Telephone'
-                                        />
-                                    </motion.div>
-                                </div>
-
-                                <motion.div
-                                    className="flex flex-col gap-2"
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.3 }}
-                                >
-                                    <label htmlFor="destination">Destination <span className="text-red-500">*</span></label>
-                                    <input
-                                        type="text"
-                                        name="destination"
-                                        id="destination"
-                                        value={formData.destination}
-                                        onChange={handleInputChange}
-                                        className='border-2 rounded h-10 w-full border-gray-300 p-2 px-4 ring-0 focus:right-0 focus:border-gray-300 bg-white transition-all duration-300 focus:ring-2 focus:ring-green-300 outline-none'
-                                        placeholder='Where you want to go'
-                                        required
-                                    />
-                                </motion.div>
-
-                                <motion.div
-                                    className="flex flex-col gap-2"
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.4 }}
-                                >
-                                    <label htmlFor="message">Message</label>
-                                    <textarea
-                                        rows={4}
-                                        name="message"
-                                        id="message"
-                                        value={formData.message}
-                                        onChange={handleInputChange}
-                                        className='border-2 rounded w-full border-gray-300 p-2 px-4 ring-0 focus:right-0 focus:border-gray-300 bg-white transition-all duration-300 focus:ring-2 focus:ring-green-300 outline-none'
-                                        placeholder='Your Message'
-                                    />
-                                </motion.div>
-
-                                <motion.button
-                                    type="submit"
-                                    className='bg-[#dd8819] text-white py-3 px-10 rounded-full mt-2 relative overflow-hidden'
-                                    whileHover={{ scale: 1.02, backgroundColor: "#c97a15" }}
-                                    whileTap={{ scale: 0.98 }}
-                                    disabled={isSubmitting}
-                                >
-                                    <AnimatePresence mode="wait">
-                                        {isSubmitting ? (
-                                            <motion.div
-                                                key="loading"
-                                                initial={{ opacity: 0 }}
-                                                animate={{ opacity: 1 }}
-                                                exit={{ opacity: 0 }}
-                                                className="flex items-center justify-center gap-2"
-                                            >
-                                                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                                                Sending...
-                                            </motion.div>
-                                        ) : submitSuccess ? (
-                                            <motion.div
-                                                key="success"
-                                                initial={{ opacity: 0, scale: 0.8 }}
-                                                animate={{ opacity: 1, scale: 1 }}
-                                                exit={{ opacity: 0 }}
-                                            >
-                                                ✓ Sent Successfully!
-                                            </motion.div>
-                                        ) : (
-                                            <motion.div
-                                                key="default"
-                                                initial={{ opacity: 0 }}
-                                                animate={{ opacity: 1 }}
-                                                exit={{ opacity: 0 }}
-                                            >
-                                                Send Message
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
-                                </motion.button>
-                            </motion.form>
+                    <div>
+                        <div className='mb-4'>
+                            <h2 className='text-xl md:text-2xl font-bold text-gray-800 mb-2'>
+                                Book Your Trip
+                            </h2>
+                            <p className='text-gray-600 text-sm'>
+                                Fill out the form below and our safari expert will get back to you shortly
+                            </p>
                         </div>
-                    </SectionObserver>
+
+                        <form onSubmit={handleSubmit} className='bg-white rounded-lg shadow-md p-6 space-y-4'>
+                            {/* Name Field */}
+                            <div>
+                                <label htmlFor="name" className="block text-gray-700 font-medium text-sm mb-1">
+                                    Name <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    id="name"
+                                    value={formData.name}
+                                    onChange={handleInputChange}
+                                    className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#C57712] focus:ring-1 focus:ring-[#C57712] bg-white'
+                                    placeholder="John Doe"
+                                    required
+                                />
+                            </div>
+
+                            {/* Email and Phone - Row */}
+                            <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+                                <div>
+                                    <label htmlFor="email" className="block text-gray-700 font-medium text-sm mb-1">
+                                        Email
+                                    </label>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        id="email"
+                                        value={formData.email}
+                                        onChange={handleInputChange}
+                                        className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#C57712] focus:ring-1 focus:ring-[#C57712] bg-white'
+                                        placeholder="john@example.com"
+                                    />
+                                </div>
+                                <div>
+                                    <label htmlFor="telephone" className="block text-gray-700 font-medium text-sm mb-1">
+                                        Telephone
+                                    </label>
+                                    <input
+                                        type="tel"
+                                        name="telephone"
+                                        id="telephone"
+                                        value={formData.telephone}
+                                        onChange={handleInputChange}
+                                        className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#C57712] focus:ring-1 focus:ring-[#C57712] bg-white'
+                                        placeholder="+256 XXX XXX XXX"
+                                    />
+                                </div>
+                            </div>
+
+                            {/* Destination Field */}
+                            <div>
+                                <label htmlFor="destination" className="block text-gray-700 font-medium text-sm mb-1">
+                                    Destination <span className="text-red-500">*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    name="destination"
+                                    id="destination"
+                                    value={formData.destination}
+                                    onChange={handleInputChange}
+                                    className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#C57712] focus:ring-1 focus:ring-[#C57712] bg-white'
+                                    placeholder="e.g., Bwindi, Murchison Falls, Queen Elizabeth"
+                                    required
+                                />
+                            </div>
+
+                            {/* Additional Info Dropdown */}
+                            <div>
+                                <label htmlFor="travelers" className="block text-gray-700 font-medium text-sm mb-1">
+                                    Number of Travelers
+                                </label>
+                                <select
+                                    id="travelers"
+                                    name="travelers"
+                                    className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#C57712] focus:ring-1 focus:ring-[#C57712] bg-white'
+                                >
+                                    <option value="">Select number of travelers</option>
+                                    <option value="1">1 Traveler</option>
+                                    <option value="2">2 Travelers</option>
+                                    <option value="3">3 Travelers</option>
+                                    <option value="4">4 Travelers</option>
+                                    <option value="5">5+ Travelers</option>
+                                </select>
+                            </div>
+
+                            {/* Message Field */}
+                            <div>
+                                <label htmlFor="message" className="block text-gray-700 font-medium text-sm mb-1">
+                                    Message
+                                </label>
+                                <textarea
+                                    rows={4}
+                                    name="message"
+                                    id="message"
+                                    value={formData.message}
+                                    onChange={handleInputChange}
+                                    className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-[#C57712] focus:ring-1 focus:ring-[#C57712] bg-white resize-none'
+                                    placeholder="Tell us about your dream safari, preferred dates, or any special requests..."
+                                />
+                            </div>
+
+                            {/* Submit Button */}
+                            <button
+                                type="submit"
+                                className='w-full bg-[#C57712] hover:bg-[#a5630e] text-white font-semibold py-3 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting ? (
+                                    <span className="flex items-center justify-center gap-2">
+                                        <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                                        Sending...
+                                    </span>
+                                ) : submitSuccess ? (
+                                    <span>✓ Sent Successfully!</span>
+                                ) : (
+                                    <span>Send Booking Request</span>
+                                )}
+                            </button>
+
+                            {/* Trust Badge */}
+                            <div className="text-center pt-2">
+                                <p className="text-xs text-gray-500">
+                                    We respect your privacy. Your information will never be shared.
+                                </p>
+                            </div>
+                        </form>
+                    </div>
                 </div>
 
-                {/* Map Dialog with Animation */}
+                {/* Map Dialog/Modal */}
                 <Dialog open={showMap} onOpenChange={setShowMap}>
-                    <DialogContent className="w-full max-w-4xl p-2 bg-white rounded-xl">
-                        <DialogHeader className="h-12">
-                            <DialogTitle>Destinations in {newTab}</DialogTitle>
-                            <DialogDescription>All top destinations - Hover over the map to zoom in</DialogDescription>
+                    <DialogContent className="max-w-4xl w-[90vw] bg-white rounded-lg p-0 overflow-hidden">
+                        <DialogHeader className="p-4 border-b border-gray-200">
+                            <DialogTitle className="text-lg font-semibold text-gray-800">
+                                Destinations Map - {activeTab}
+                            </DialogTitle>
+                            <DialogDescription className="text-sm text-gray-500">
+                                Click anywhere outside the image to close
+                            </DialogDescription>
                         </DialogHeader>
-
-                        <motion.div
-                            className="w-full h-[70vh] overflow-hidden rounded-lg relative bg-gray-100"
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.9 }}
-                            transition={{ duration: 0.3 }}
-                        >
-                            <img
-                                src={newUrl}
-                                alt="map"
-                                className="h-full w-full object-contain transition-transform duration-200 cursor-zoom-in"
-                                style={zoomStyle}
-                                onMouseMove={handleMouseMove}
-                                onMouseLeave={resetZoom}
-                            />
-                            <motion.div
-                                className="absolute bottom-4 right-4 text-xs text-gray-500 bg-white bg-opacity-75 px-2 py-1 rounded"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.5 }}
-                            >
-                                Hover to zoom • Click to close
-                            </motion.div>
-                        </motion.div>
+                        
+                        <div className="p-4 bg-gray-100">
+                            <div className="bg-white rounded-lg overflow-hidden">
+                                <img
+                                    src={currentMapUrl}
+                                    alt={`Detailed map of ${activeTab}`}
+                                    className="w-full h-auto max-h-[70vh] object-contain"
+                                />
+                            </div>
+                        </div>
+                        
+                        <div className="p-3 border-t border-gray-200 bg-gray-50 text-center">
+                            <p className="text-xs text-gray-500">
+                                Map of {activeTab} showing major national parks and safari destinations
+                            </p>
+                        </div>
                     </DialogContent>
                 </Dialog>
             </section>

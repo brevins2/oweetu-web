@@ -23,11 +23,8 @@ const Safari = sequelize.define('Safari', {
         allowNull: true
     },
     price: {
-        type: DataTypes.DECIMAL(10, 2),
+        type: DataTypes.STRING(50),
         allowNull: false,
-        validate: {
-            min: { args: [0], msg: 'Price cannot be negative' }
-        }
     },
     country: {
         type: DataTypes.STRING(225),

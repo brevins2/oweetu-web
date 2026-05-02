@@ -14,3 +14,6 @@ body {
 Card {
   border: 0px !important;
 }
+button {
+  cursor: pointer;
+}
