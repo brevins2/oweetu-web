@@ -1,6 +1,7 @@
 import Banner from '@/components/banner'
 import Footer from '@/components/footer'
 import Header2 from '@/components/header2'
+import SectionObserver from '@/components/SectionObserver'
 import { GoGlobe } from "react-icons/go";
 import { LuMail } from "react-icons/lu";
 import { TbPhoneRinging, TbClock } from "react-icons/tb";
@@ -11,7 +12,6 @@ import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
 
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
 
 import pearl from '@/assets/pearl.webp'
 import hotel from '@/assets/hotel-1.jpeg'
@@ -80,26 +80,6 @@ const ContactPage = () => {
         hover: { scale: 1.2, rotate: 5, transition: { duration: 0.2 } },
         tap: { scale: 0.95 }
     }
-
-    const SectionObserver = ({ children, variants, className = "" }) => {
-        const [ref, inView] = useInView({
-            triggerOnce: true,
-            threshold: 0.1,
-            rootMargin: "-50px 0px"
-        });
-
-        return (
-            <motion.div
-                ref={ref}
-                initial="hidden"
-                animate={inView ? "visible" : "hidden"}
-                variants={variants}
-                className={className}
-            >
-                {children}
-            </motion.div>
-        );
-    };
 
     const reasons = [
         {

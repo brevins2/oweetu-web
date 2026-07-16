@@ -1,11 +1,11 @@
 import Banner from '@/components/banner';
 import Footer from '@/components/footer';
 import Header2 from '@/components/header2';
+import SectionObserver from '@/components/SectionObserver';
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useInView } from 'react-intersection-observer';
 import HTMLRenderer from '@/components/HTMLRenderer';
 import axiosInstance from '@/utils/axiosInstance';
 
@@ -76,20 +76,6 @@ const SafariDetails = () => {
         hidden: { opacity: 0, x: 50 },
         visible: { opacity: 1, x: 0, transition: { duration: 0.6, delay: 0.3 } }
     }
-
-    const SectionObserver = ({ children, variants, className = "" }) => {
-        const [ref, inView] = useInView({
-            triggerOnce: true,
-            threshold: 0.1,
-            rootMargin: "-50px 0px"
-        });
-
-        return (
-            <motion.div ref={ref} initial="hidden" animate={inView ? "visible" : "hidden"} variants={variants} className={className}>
-                {children}
-            </motion.div>
-        );
-    };
 
     if (!safari) {
         return (

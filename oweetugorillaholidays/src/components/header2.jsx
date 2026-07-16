@@ -11,7 +11,7 @@ const Header2 = () => {
     const handleMenuOpen = () => {
         setOpen(!open)
     }
-    
+
     useEffect(() => {
         setOpen(false)
     }, [location])
@@ -29,6 +29,7 @@ const Header2 = () => {
                     <Link to='/destinations' className={`${location.pathname === '/destinations' || location.pathname.includes('destinations') ? 'text-[#cf7a18]' : ''} hover:text-[#cf7a18] font-medium text-[16px]`}>Destinations</Link>
                     <Link to='/about' className={`${location.pathname === '/about' ? 'text-[#cf7a18]' : ''} hover:text-[#cf7a18] font-medium text-[16px]`}>About</Link>
                     <Link to='/contact' className={`${location.pathname === '/contact' ? 'text-[#cf7a18]' : ''} hover:text-[#cf7a18] font-medium text-[16px]`}>Contact</Link>
+                    <Link to='/fleet' className={`${location.pathname === '/fleet' ? 'text-[#cf7a18]' : ''} hover:text-[#cf7a18] font-medium text-[16px]`}>Fleet</Link>
                     <Link to='/gallery' className={`${location.pathname === '/gallery' ? 'text-[#cf7a18]' : ''} hover:text-[#cf7a18] font-medium text-[16px]`}>Gallery</Link>
                     <Link to='/bookings' className="bg-[#cf7a18] hover:bg-[#eb932f] py-3 px-6 rounded-md transition text-white">Book Now</Link>
                 </nav>
@@ -44,6 +45,7 @@ const Header2 = () => {
                 <Link to='/destinations' className={`${location.pathname === '/destinations' ? 'text-[#cf7a18]' : ''} hover:text-[#cf7a18] font-medium text-[16px]`}>Destinations</Link>
                 <Link to='/about' className={`${location.pathname === '/about' ? 'text-[#cf7a18]' : ''} hover:text-[#cf7a18] font-medium text-[16px]`}>About</Link>
                 <Link to='/contact' className={`${location.pathname === '/contact' ? 'text-[#cf7a18]' : ''} hover:text-[#cf7a18] font-medium text-[16px]`}>Contact</Link>
+                <Link to='/fleet' className={`${location.pathname === '/fleet' ? 'text-[#cf7a18]' : ''} hover:text-[#cf7a18] font-medium text-[16px]`}>Fleet</Link>
                 <Link to='/gallery' className={`${location.pathname === '/gallery' ? 'text-[#cf7a18]' : ''} hover:text-[#cf7a18] font-medium text-[16px]`}>Gallery</Link>
                 <Link to='/bookings' className="bg-[#cf7a18] hover:bg-[#eb932f] py-3 px-6 rounded-md transition text-white">Book Now</Link>
             </nav>
