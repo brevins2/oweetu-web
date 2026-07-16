@@ -1,10 +1,10 @@
 import Banner from '@/components/banner'
 import Footer from '@/components/footer'
 import Header2 from '@/components/header2'
+import SectionObserver from '@/components/SectionObserver'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
 
 import oweetu_fleet from '@/assets/oweetu_fleet.jpeg'
 import car1 from '@/assets/car1.jpeg'
@@ -68,27 +68,6 @@ const AboutPage = () => {
     const imageHover = {
         whileHover: { scale: 1.05, transition: { duration: 0.4 } }
     }
-
-    // Custom hook for scroll animations
-    const SectionObserver = ({ children, variants, className = "" }) => {
-        const [ref, inView] = useInView({
-            triggerOnce: true,
-            threshold: 0.1,
-            rootMargin: "-50px 0px"
-        });
-
-        return (
-            <motion.div
-                ref={ref}
-                initial="hidden"
-                animate={inView ? "visible" : "hidden"}
-                variants={variants}
-                className={className}
-            >
-                {children}
-            </motion.div>
-        );
-    };
 
     const destinations = [
         {

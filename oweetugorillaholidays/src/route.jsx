@@ -16,6 +16,7 @@ const DestinationDetailPage = React.lazy(() => import("./pages/DestinationDetail
 const BookPage = React.lazy(() => import("./pages/BookPage"))
 const ErrorPage = React.lazy(() => import("./pages/ErrorPage"))
 const CountryPage = React.lazy(() => import("./pages/CountryPage"))
+const Fleet = React.lazy(() => import("./pages/Fleet"))
 
 const LazyLoader = ({ children }) => {
   return (
@@ -59,6 +60,7 @@ function AppRoutes() {
       '/safaris': 'Safaris',
       '/destinations': 'Destinations',
       '/gallery': 'Gallery',
+      '/fleet': 'Fleet',
       '/access': 'Access',
       '/bookings': 'Bookings',
       '/mgt': 'Management'
@@ -96,6 +98,7 @@ function AppRoutes() {
       <Route path="/destinations/country/:country" element={<LazyLoader><CountryPage /></LazyLoader>} />
       <Route path="/safaris/:id" element={<LazyLoader><SafariDetails /></LazyLoader>} />
       <Route path="/bookings" element={<LazyLoader><BookPage /></LazyLoader>} />
+      <Route path="/fleet" element={<LazyLoader><Fleet /></LazyLoader>} />
       <Route path="/gallery" element={<LazyLoader><Gallery /></LazyLoader>} />
       <Route path="/access" element={<LazyLoader><LoginPage /></LazyLoader>} />
 

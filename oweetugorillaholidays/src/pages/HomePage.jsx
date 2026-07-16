@@ -1,6 +1,7 @@
 import Footer from '@/components/footer'
 import Header1 from '@/components/header1'
 import HeroSlider from '@/components/heroSlider'
+import SectionObserver from '@/components/SectionObserver'
 import { GoGlobe } from "react-icons/go";
 import { FaHeart, FaLeaf, FaUsers, FaAward, FaCamera, FaPhoneAlt } from "react-icons/fa";
 import { FaHatCowboy } from "react-icons/fa";
@@ -9,11 +10,9 @@ import { FaStar } from "react-icons/fa";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdOutlineVerified } from "react-icons/md";
 import { TbClock24 } from "react-icons/tb";
-import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
 
 import React, { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
 
 import bgimage1 from "../assets/travel-scaled-bg.png";
 import bgimage2 from "../assets/falls-scaled-bg.webp";
@@ -28,6 +27,181 @@ import { Link } from 'react-router-dom';
 import axiosInstance from '@/utils/axiosInstance';
 
 const base_url = import.meta.env.VITE_API_URL
+
+const fadeInUp = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+}
+
+const fadeInLeft = {
+    hidden: { opacity: 0, x: -50 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: "easeOut" } }
+}
+
+const fadeInRight = {
+    hidden: { opacity: 0, x: 50 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: "easeOut" } }
+}
+
+const fadeInScale = {
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: { opacity: 1, scale: 1, transition: { duration: 0.4 } }
+}
+
+const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+            delayChildren: 0.2
+        }
+    }
+}
+
+const cardVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
+}
+
+const reasons = [
+    {
+        icon: <FaHatCowboy size={36} />,
+        title: 'Expert Gorilla Trekking Guides',
+        description: 'Certified local guides with over a decade of experience in primate trekking and wildlife safaris',
+        linear: 'from-amber-50 to-orange-50'
+    },
+    {
+        icon: <GoGlobe size={36} />,
+        title: 'Authentic Ugandan Experience',
+        description: 'Immerse yourself in rich culture, diverse wildlife, and breathtaking landscapes of the Pearl of Africa',
+        linear: 'from-emerald-50 to-teal-50'
+    },
+    {
+        icon: <MdOutlineVerified size={36} />,
+        title: 'Luxury & Comfort',
+        description: 'Hand-picked eco-lodges and premium accommodations that blend luxury with nature',
+        linear: 'from-blue-50 to-indigo-50'
+    },
+    {
+        icon: <FaShieldAlt size={36} />,
+        title: 'Safe & Responsible Travel',
+        description: 'Secure and peaceful travels with comprehensive safety protocols and 24/7 support',
+        linear: 'from-purple-50 to-pink-50'
+    }
+]
+
+const stats = [
+    { value: '10+', label: 'Years Experience', icon: <FaAward /> },
+    { value: '5,000+', label: 'Happy Travelers', icon: <FaUsers /> },
+    { value: '50+', label: 'Safari Packages', icon: <GoGlobe /> },
+    { value: '24/7', label: 'Customer Support', icon: <TbClock24 /> },
+]
+
+const destinations = [
+    {
+        title: "Uganda",
+        image: uganda,
+        description: "Explore Uganda's exceptional wildlife, savanna plains, and the mighty Nile River",
+        highlights: ["Gorilla Trekking", "Source of the Nile", "Queen Elizabeth Park"]
+    },
+    {
+        title: "Kenya",
+        image: kenya,
+        description: "Witness the Great Migration in Masai Mara and experience Kenya's iconic savanna landscapes",
+        highlights: ["Masai Mara", "Great Migration", "Amboseli"]
+    },
+    {
+        title: "Tanzania",
+        image: tz,
+        description: "From the slopes of Kilimanjaro to the Serengeti plains, Tanzania offers unparalleled adventure",
+        highlights: ["Serengeti", "Ngorongoro", "Kilimanjaro"]
+    },
+    {
+        title: "Rwanda",
+        image: rwanda,
+        description: "Trek mountain gorillas in Volcanoes National Park and explore the land of a thousand hills",
+        highlights: ["Gorilla Trekking", "Nyungwe Forest", "Kigali City"]
+    },
+]
+
+const parks = [
+    {
+        link: 'https://www.queenelizabethnationalpark.com/',
+        name: 'Queen Elizabeth National Park'
+    },
+    {
+        link: 'https://www.murchisonfallsnationalpark.com/',
+        name: 'Murchison Falls National Park'
+    },
+    {
+        link: 'https://www.bwindiforestnationalpark.com/',
+        name: 'Bwindi Impenetrable National Park'
+    },
+    {
+        link: 'https://www.kideponationalpark.com/',
+        name: 'Kidepo Valley National Park'
+    },
+    {
+        link: 'https://www.kibaleforestnationalpark.com/',
+        name: 'Kibale Forest National Park'
+    },
+    {
+        link: 'https://www.mgahinganationalpark.org/',
+        name: 'Mgahinga National Park'
+    },
+    {
+        link: 'https://www.rwenzorimountainsnationalpark.com/',
+        name: 'Rwenzori Mountains National Park'
+    },
+    {
+        link: 'https://www.lakemburoparkuganda.com/',
+        name: 'Lake Mbulo National Park'
+    },
+    {
+        link: 'https://www.kibaleforestnationalpark.com/',
+        name: 'Mount Elgon National Park'
+    },
+    {
+        link: 'https://www.semulikinationalparkuganda.com/',
+        name: 'Semuliki National Park'
+    },
+    {
+        link: 'https://www.masaimara.travel/',
+        name: 'Masai Mara National Reserve'
+    },
+]
+
+const reviews = [
+    {
+        text: "An absolutely life-changing experience! The gorilla trek in Bwindi was surreal, and the entire trip was flawlessly organized. Oweetu exceeded all our expectations.",
+        name: "Sarah Mitchell",
+        country: "United Kingdom",
+        rating: 5,
+        image: "https://randomuser.me/api/portraits/women/1.jpg"
+    },
+    {
+        text: "Professional guides, comfortable lodges, and seamless logistics. The wildlife viewing was spectacular - saw the Big Five and more! Highly recommend Oweetu.",
+        name: "David Chen",
+        country: "Germany",
+        rating: 5,
+        image: "https://randomuser.me/api/portraits/men/2.jpg"
+    },
+    {
+        text: "From the first email to the final drop-off, everything was perfect. The team's attention to detail and passion for Uganda's wildlife made our safari unforgettable.",
+        name: "Linda Rodriguez",
+        country: "USA",
+        rating: 5,
+        image: "https://randomuser.me/api/portraits/women/3.jpg"
+    },
+    {
+        text: "Best decision we made! The value for money is incredible. Our guide was knowledgeable and went above and beyond to ensure we had the best experience.",
+        name: "James Peterson",
+        country: "Canada",
+        rating: 5,
+        image: "https://randomuser.me/api/portraits/men/4.jpg"
+    }
+];
 
 const HomePage = () => {
     const [currentReview, setCurrentReview] = React.useState(0);
@@ -46,202 +220,12 @@ const HomePage = () => {
         getSafaris();
     }, [])
 
-    // Reduced animations - only entry animations, no continuous effects
-    const fadeInUp = {
-        hidden: { opacity: 0, y: 40 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
-    }
-
-    const fadeInLeft = {
-        hidden: { opacity: 0, x: -50 },
-        visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: "easeOut" } }
-    }
-
-    const fadeInRight = {
-        hidden: { opacity: 0, x: 50 },
-        visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: "easeOut" } }
-    }
-
-    const fadeInScale = {
-        hidden: { opacity: 0, scale: 0.95 },
-        visible: { opacity: 1, scale: 1, transition: { duration: 0.4 } }
-    }
-
-    const staggerContainer = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.1,
-                delayChildren: 0.2
-            }
-        }
-    }
-
-    const cardVariants = {
-        hidden: { opacity: 0, y: 30 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
-    }
-
-    const reasons = [
-        {
-            icon: <FaHatCowboy size={36} />,
-            title: 'Expert Gorilla Trekking Guides',
-            description: 'Certified local guides with over a decade of experience in primate trekking and wildlife safaris',
-            linear: 'from-amber-50 to-orange-50'
-        },
-        {
-            icon: <GoGlobe size={36} />,
-            title: 'Authentic Ugandan Experience',
-            description: 'Immerse yourself in rich culture, diverse wildlife, and breathtaking landscapes of the Pearl of Africa',
-            linear: 'from-emerald-50 to-teal-50'
-        },
-        {
-            icon: <MdOutlineVerified size={36} />,
-            title: 'Luxury & Comfort',
-            description: 'Hand-picked eco-lodges and premium accommodations that blend luxury with nature',
-            linear: 'from-blue-50 to-indigo-50'
-        },
-        {
-            icon: <FaShieldAlt size={36} />,
-            title: 'Safe & Responsible Travel',
-            description: 'Secure and peaceful travels with comprehensive safety protocols and 24/7 support',
-            linear: 'from-purple-50 to-pink-50'
-        }
-    ]
-
-    const stats = [
-        { value: '10+', label: 'Years Experience', icon: <FaAward /> },
-        { value: '5,000+', label: 'Happy Travelers', icon: <FaUsers /> },
-        { value: '50+', label: 'Safari Packages', icon: <GoGlobe /> },
-        { value: '24/7', label: 'Customer Support', icon: <TbClock24 /> },
-    ]
-
-    const destinations = [
-        {
-            title: "Uganda",
-            image: uganda,
-            description: "Explore Uganda's exceptional wildlife, savanna plains, and the mighty Nile River",
-            highlights: ["Gorilla Trekking", "Source of the Nile", "Queen Elizabeth Park"]
-        },
-        {
-            title: "Kenya",
-            image: kenya,
-            description: "Witness the Great Migration in Masai Mara and experience Kenya's iconic savanna landscapes",
-            highlights: ["Masai Mara", "Great Migration", "Amboseli"]
-        },
-        {
-            title: "Tanzania",
-            image: tz,
-            description: "From the slopes of Kilimanjaro to the Serengeti plains, Tanzania offers unparalleled adventure",
-            highlights: ["Serengeti", "Ngorongoro", "Kilimanjaro"]
-        },
-        {
-            title: "Rwanda",
-            image: rwanda,
-            description: "Trek mountain gorillas in Volcanoes National Park and explore the land of a thousand hills",
-            highlights: ["Gorilla Trekking", "Nyungwe Forest", "Kigali City"]
-        },
-    ]
-
-    const parks = [
-        { 
-            link: 'https://www.queenelizabethnationalpark.com/',
-            name: 'Queen Elizabeth National Park'
-        },
-        {
-            link: 'https://www.murchisonfallsnationalpark.com/',
-            name: 'Murchison Falls National Park'
-        },
-        {
-            link: 'https://www.bwindiforestnationalpark.com/',
-            name: 'Bwindi Impenetrable National Park'
-        },
-        {
-            link: 'https://www.kideponationalpark.com/',
-            name: 'Kidepo Valley National Park'
-        },
-        {
-            link: 'https://www.kibaleforestnationalpark.com/',
-            name: 'Kibale Forest National Park'
-        },
-        {
-            link: 'https://www.mgahinganationalpark.org/',
-            name: 'Mgahinga National Park'
-        },
-        {
-            link: 'https://www.rwenzorimountainsnationalpark.com/',
-            name: 'Rwenzori Mountains National Park'
-        },
-        {
-            link: 'https://www.lakemburoparkuganda.com/',
-            name: 'Lake Mbulo National Park'
-        },
-        {
-            link: 'https://www.kibaleforestnationalpark.com/',
-            name: 'Mount Elgon National Park'
-        },
-        {
-            link: 'https://www.semulikinationalparkuganda.com/',
-            name: 'Semuliki National Park'
-        },
-        {
-            link: 'https://www.masaimara.travel/',
-            name: 'Masai Mara National Reserve'
-        },
-    ]
-
-    const reviews = [
-        {
-            text: "An absolutely life-changing experience! The gorilla trek in Bwindi was surreal, and the entire trip was flawlessly organized. Oweetu exceeded all our expectations.",
-            name: "Sarah Mitchell",
-            country: "United Kingdom",
-            rating: 5,
-            image: "https://randomuser.me/api/portraits/women/1.jpg"
-        },
-        {
-            text: "Professional guides, comfortable lodges, and seamless logistics. The wildlife viewing was spectacular - saw the Big Five and more! Highly recommend Oweetu.",
-            name: "David Chen",
-            country: "Germany",
-            rating: 5,
-            image: "https://randomuser.me/api/portraits/men/2.jpg"
-        },
-        {
-            text: "From the first email to the final drop-off, everything was perfect. The team's attention to detail and passion for Uganda's wildlife made our safari unforgettable.",
-            name: "Linda Rodriguez",
-            country: "USA",
-            rating: 5,
-            image: "https://randomuser.me/api/portraits/women/3.jpg"
-        },
-        {
-            text: "Best decision we made! The value for money is incredible. Our guide was knowledgeable and went above and beyond to ensure we had the best experience.",
-            name: "James Peterson",
-            country: "Canada",
-            rating: 5,
-            image: "https://randomuser.me/api/portraits/men/4.jpg"
-        }
-    ];
-
     React.useEffect(() => {
         const interval = setInterval(() => {
             setCurrentReview(prev => (prev + 1) % reviews.length);
         }, 6000);
         return () => clearInterval(interval);
     }, []);
-
-    const SectionObserver = ({ children, variants, className = "" }) => {
-        const [ref, inView] = useInView({
-            triggerOnce: true,
-            threshold: 0.1,
-            rootMargin: "-50px 0px"
-        });
-
-        return (
-            <motion.div ref={ref} initial="hidden" animate={inView ? "visible" : "hidden"} variants={variants} className={className}>
-                {children}
-            </motion.div>
-        );
-    };
 
     return (
         <div className="bg-white">

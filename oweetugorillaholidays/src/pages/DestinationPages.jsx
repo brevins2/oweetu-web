@@ -1,10 +1,10 @@
 import Banner from '@/components/banner'
 import Footer from '@/components/footer'
 import Header2 from '@/components/header2'
+import SectionObserver from '@/components/SectionObserver'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { useInView } from 'react-intersection-observer'
 
 import uganda from '@/assets/uganda.jpg'
 import ken from '@/assets/ken.jpg'
@@ -72,27 +72,6 @@ const DestinationPages = () => {
         hidden: { opacity: 0, x: -20 },
         visible: { opacity: 1, x: 0, transition: { duration: 0.4 } }
     }
-
-    // Custom hook for scroll animations
-    const SectionObserver = ({ children, variants, className = "" }) => {
-        const [ref, inView] = useInView({
-            triggerOnce: true,
-            threshold: 0.1,
-            rootMargin: "-50px 0px"
-        });
-
-        return (
-            <motion.div
-                ref={ref}
-                initial="hidden"
-                animate={inView ? "visible" : "hidden"}
-                variants={variants}
-                className={className}
-            >
-                {children}
-            </motion.div>
-        );
-    };
 
     const countries = [
         {
