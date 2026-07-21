@@ -89,10 +89,10 @@ const SafarisPage = () => {
         return (
             <div>
                 <Header2 />
-                <motion.div className="py-20 h-81 text-center" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-                    <h1 className="text-2xl font-bold">Loading safari</h1>
+                <motion.div className="py-20 h-81 flex items-center justify-center gap-4" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+                    <h1 className="text-xl font-bold">Loading safari</h1>
                     <motion.div whileHover={{ scale: 1 }} whileTap={{ scale: 0.95 }}>
-                        <AiOutlineLoading3Quarters className="animate-spin" size={30} />
+                        <AiOutlineLoading3Quarters className="animate-spin" size={20} />
                     </motion.div>
                 </motion.div>
                 <Footer />
@@ -103,7 +103,7 @@ const SafarisPage = () => {
     return (
         <div>
             <Header2 />
-            <Banner title="Safaris" />
+            <Banner title="Our Safari Packages" />
 
             <section className="bg-[#f7f7f7] py-12">
                 <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 px-4">

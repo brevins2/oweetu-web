@@ -85,6 +85,8 @@ function AppRoutes() {
   useEffect(() => {
     const pageTitle = getPageTitle(location.pathname);
     document.title = `${pageTitle} - Oweetu Gorilla Holidays`;
+
+    window.scrollTo(0, 0)
   }, [location]);
 
   return (

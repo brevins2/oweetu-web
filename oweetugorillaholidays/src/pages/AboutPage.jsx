@@ -7,10 +7,10 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 
 import oweetu_fleet from '@/assets/oweetu_fleet.jpeg'
-import car1 from '@/assets/car1.jpeg'
+import car1 from '@/assets/03.jpeg'
 import car3 from '@/assets/car3.jpeg'
 import car4 from '@/assets/car4.jpeg'
-import car6 from '@/assets/car6.jpeg'
+import car6 from '@/assets/07.jpeg'
 import car12 from '@/assets/car12.jpeg'
 
 import uganda from '@/assets/uganda.jpg'
