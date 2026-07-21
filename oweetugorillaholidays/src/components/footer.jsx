@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import logo from "@/assets/logo.webp"
 import { Link } from 'react-router-dom';
-import { FaInstagram, FaTiktok, FaFacebookF, FaTwitter, FaYoutube, FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaPaperPlane, FaShieldAlt } from "react-icons/fa";
+import { FaInstagram, FaTiktok, FaEnvelope, FaPhoneAlt, FaMapMarkerAlt, FaPaperPlane, FaShieldAlt } from "react-icons/fa";
 import axiosInstance from '@/utils/axiosInstance';
 import { toast, Toaster } from "react-hot-toast";
 
@@ -60,18 +60,18 @@ const Footer = () => {
     return (
         <footer className="bg-[#0a0f0a] text-gray-300">
             <Toaster position="bottom-right" />
-            
+
             {/* Main Footer */}
             <div className="max-w-7xl mx-auto px-4 md:px-6 py-12 md:py-16">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-                    
+
                     {/* Column 1 - Brand & About */}
                     <div className="space-y-4">
                         <Link to="/" className="block">
                             <img src={logo} alt="Oweetu Gorilla Holidays" className="h-16 md:h-20 object-contain" />
                         </Link>
                         <p className="text-sm leading-relaxed">
-                            Experience the uniqueness of East African wildlife, savannahs, landscapes, 
+                            Experience the uniqueness of East African wildlife, savannahs, landscapes,
                             water bodies, and diverse cultures. Mix luxury travel with wild adventure.
                         </p>
                         <div className="flex items-center gap-2 text-xs text-[#C57712]">
@@ -88,8 +88,8 @@ const Footer = () => {
                         <ul className="space-y-2">
                             {quickLinks.map((link, idx) => (
                                 <li key={idx}>
-                                    <Link 
-                                        to={link.path} 
+                                    <Link
+                                        to={link.path}
                                         className="text-sm hover:text-[#C57712] transition-colors duration-200 inline-block"
                                     >
                                         {link.name}
@@ -107,9 +107,9 @@ const Footer = () => {
                         <ul className="space-y-2">
                             {destinations.map((destination, idx) => (
                                 <li key={idx}>
-                                    <a 
-                                        href={destination.url} 
-                                        target="_blank" 
+                                    <a
+                                        href={destination.url}
+                                        target="_blank"
                                         rel="noopener noreferrer"
                                         className="text-sm hover:text-[#C57712] transition-colors duration-200 inline-block"
                                     >
@@ -125,7 +125,7 @@ const Footer = () => {
                         <h3 className="text-lg md:text-xl font-bold text-[#C57712] border-l-3 border-[#C57712] pl-3">
                             Contact Us
                         </h3>
-                        
+
                         <div className="space-y-2">
                             <div className="flex items-start gap-3">
                                 <FaMapMarkerAlt className="text-[#C57712] mt-0.5 shrink-0" size={16} />
@@ -149,17 +149,17 @@ const Footer = () => {
                         <div className="pt-2">
                             <h4 className="font-semibold text-white mb-2 text-sm">Subscribe to our newsletter</h4>
                             <div className="flex flex-col sm:flex-row gap-2">
-                                <input 
-                                    type="email" 
-                                    value={email} 
-                                    onChange={(e) => setEmail(e.target.value)} 
+                                <input
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
                                     onKeyPress={(e) => e.key === 'Enter' && handleSubscribe()}
-                                    placeholder="Enter your email" 
+                                    placeholder="Enter your email"
                                     className="flex-1 px-3 py-2 rounded-lg bg-[#1a1f1a] border border-gray-700 text-white placeholder-gray-500 focus:outline-none focus:border-[#C57712] transition-colors"
                                 />
-                                <button 
-                                    onClick={handleSubscribe} 
-                                    disabled={loading} 
+                                <button
+                                    onClick={handleSubscribe}
+                                    disabled={loading}
                                     className="bg-[#C57712] px-4 py-2 rounded-lg hover:bg-[#a5630e] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 whitespace-nowrap"
                                 >
                                     {loading ? (
@@ -190,16 +190,17 @@ const Footer = () => {
                             </a>
                         ))}
                     </div>
-                    
-                    <div className="text-center text-sm text-gray-500">
+
+                    <div className="text-center text-sm text-gray-300">
                         © {new Date().getFullYear()} Oweetu Gorilla Holidays. All rights reserved.
                     </div>
-                    
-                    {/* <div className="flex gap-4 text-xs">
-                        <Link to="/privacy-policy" className="hover:text-[#C57712] transition-colors">Privacy Policy</Link>
+
+                    <div className="flex gap-1 text-xs">
+                        {/* <Link to="/privacy-policy" className="hover:text-[#C57712] transition-colors">Privacy Policy</Link>
                         <span className="text-gray-700">|</span>
-                        <Link to="/terms-conditions" className="hover:text-[#C57712] transition-colors">Terms & Conditions</Link>
-                    </div> */}
+                        <Link to="/terms-conditions" className="hover:text-[#C57712] transition-colors">Terms & Conditions</Link> */}
+                        Crafted by <a href="https://softbytetechnologies.com" target="_blank" rel="noopener noreferrer" className="text-[#C57712] hover:text-yellow-400 font-bold transition-colors">Softbyte Technologies Ltd</a>
+                    </div>
                 </div>
             </div>
         </footer>

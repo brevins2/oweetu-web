@@ -2,11 +2,10 @@ import Banner from '@/components/banner'
 import Footer from '@/components/footer'
 import Header2 from '@/components/header2'
 import SectionObserver from '@/components/SectionObserver'
-import { GoGlobe } from "react-icons/go";
 import { LuMail } from "react-icons/lu";
 import { TbPhoneRinging, TbClock } from "react-icons/tb";
 import { PiMapPinAreaFill } from "react-icons/pi";
-import { FaInstagram, FaTiktok, FaFacebookF, FaTwitter, FaWhatsapp } from "react-icons/fa6";
+import { FaInstagram, FaTiktok, FaFacebookF, FaWhatsapp, FaXTwitter } from "react-icons/fa6";
 import { MdVerified } from "react-icons/md";
 import { HiOutlineChatBubbleLeftRight } from "react-icons/hi2";
 
@@ -169,7 +168,7 @@ const ContactPage = () => {
                         <motion.div initial={{ opacity: 0, y: -30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
                             <span className="text-[#C57712] text-sm md:text-base font-semibold tracking-wide uppercase">Why Travel With Us</span>
                             <h2 className='text-3xl md:text-4xl text-[#070e06] font-bold mt-2 mb-4'>
-                                Unforgettable Safari Experiences
+                                Unforgetable Safari Experiences
                             </h2>
                             <p className='text-gray-600 max-w-2xl mx-auto'>
                                 Join thousands of satisfied travelers who discovered the magic of Uganda with us
@@ -178,7 +177,7 @@ const ContactPage = () => {
 
                         <motion.div variants={staggerContainer} initial="hidden" animate="visible" className='mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 py-2'>
                             {reasons.map((reason, idx) => (
-                                <motion.div key={idx} variants={cardVariants} whileHover={{ y: -10, transition: { duration: 0.3 } }} className='group relative rounded-2xl overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer'>
+                                <motion.div key={idx} variants={cardVariants} whileHover={{ y: -10, transition: { duration: 0.3 } }} className='group relative rounded-2xl overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-300'>
                                     <div className='relative overflow-hidden h-64'>
                                         <motion.img src={reason.image} alt={reason.title} className='w-full h-full object-cover' whileHover={{ scale: 1.1 }} transition={{ duration: 0.6 }} />
                                         <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />
@@ -189,7 +188,7 @@ const ContactPage = () => {
                                         </h3>
                                         <p className='text-gray-600 leading-relaxed'>{reason.description}</p>
                                         <motion.div className="mt-4 inline-flex items-center text-[#C57712] font-semibold text-sm" whileHover={{ x: 5 }}>
-                                            Learn More →
+                                            {/* Contact us to learn More */}
                                         </motion.div>
                                     </div>
                                 </motion.div>
@@ -256,7 +255,7 @@ const ContactPage = () => {
                                     </motion.div>
 
                                     {/* Quick Links */}
-                                    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
+                                    {/* <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
                                         <h3 className="font-semibold text-gray-800 mb-3">Quick Links</h3>
                                         <div className="flex flex-wrap gap-3">
                                             {quickLinks.map((link, idx) => (
@@ -265,7 +264,7 @@ const ContactPage = () => {
                                                 </motion.a>
                                             ))}
                                         </div>
-                                    </motion.div>
+                                    </motion.div> */}
 
                                     {/* Social Media Section */}
                                     <motion.div className='pt-4' initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.5 }}>
@@ -275,7 +274,7 @@ const ContactPage = () => {
                                                 { icon: FaInstagram, link: "https://instagram.com/oweetugorillaholidays", color: "hover:text-pink-600" },
                                                 { icon: FaTiktok, link: "https://tiktok.com/@oweetu.gorilla.hol", color: "hover:text-black" },
                                                 { icon: FaFacebookF, link: "#", color: "hover:text-blue-600" },
-                                                { icon: FaTwitter, link: "#", color: "hover:text-blue-400" },
+                                                { icon: FaXTwitter, link: "#", color: "hover:text-blue-400" },
                                             ].map((social, idx) => (
                                                 <motion.a key={idx} href={social.link} target="_blank" rel="noopener noreferrer" className={`w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 ${social.color} transition-all duration-300`} whileHover={{ scale: 1.1, rotate: 5 }} whileTap={{ scale: 0.95 }}>
                                                     <social.icon size={22} />
