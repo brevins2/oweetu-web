@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /mgt/
+
+Sitemap: https://oweetugorillaholidays.com/sitemap.xml

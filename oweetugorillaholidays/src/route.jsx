@@ -17,6 +17,7 @@ const BookPage = React.lazy(() => import("./pages/BookPage"))
 const ErrorPage = React.lazy(() => import("./pages/ErrorPage"))
 const CountryPage = React.lazy(() => import("./pages/CountryPage"))
 const Fleet = React.lazy(() => import("./pages/Fleet"))
+const SitemapPage = React.lazy(() => import("./pages/SitemapPage"))
 
 const LazyLoader = ({ children }) => {
   return (
@@ -63,7 +64,8 @@ function AppRoutes() {
       '/fleet': 'Fleet',
       '/access': 'Access',
       '/bookings': 'Bookings',
-      '/mgt': 'Management'
+      '/mgt': 'Management',
+      '/sitemap': 'Sitemap'
     };
 
     if (pathname.startsWith('/safaris/')) {
@@ -103,6 +105,7 @@ function AppRoutes() {
       <Route path="/fleet" element={<LazyLoader><Fleet /></LazyLoader>} />
       <Route path="/gallery" element={<LazyLoader><Gallery /></LazyLoader>} />
       <Route path="/access" element={<LazyLoader><LoginPage /></LazyLoader>} />
+      <Route path="/sitemap" element={<LazyLoader><SitemapPage /></LazyLoader>} />
 
       <Route path="/mgt/*" element={
         <ProtectedRoute>
