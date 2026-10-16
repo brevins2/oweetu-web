@@ -47,7 +47,7 @@ const Header1 = () => {
         >
             <div className="max-w-7xl mx-auto min-h-16 flex items-center justify-between px-6">
                 <Link to='/'>
-                    <img src={logo} alt="Logo" className={`h-24 w-24 object-contain ${!scrolled && 'bg-gray-100'}`} />
+                    <img src={logo} alt="Logo" className={`h-20 w-24 object-contain ${!scrolled && 'bg-gray-100'} ${scrolled && 'py-2'}`} />
                 </Link>
 
                 <nav className="hidden md:flex gap-8 text-sm font-medium items-center">

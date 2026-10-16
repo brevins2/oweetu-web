@@ -35,8 +35,8 @@ const BookPage = () => {
         },
         {
             icon: <TbPhoneRinging color='#C57712' size={20} />,
-            address: "+256 765 390 155",
-            link: "tel:+256765390155"
+            address: "+256 746 886 515",
+            link: "tel:+2567468865515"
         },
     ]
 
