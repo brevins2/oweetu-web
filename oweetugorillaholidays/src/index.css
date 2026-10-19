@@ -3,17 +3,78 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
 
+@theme {
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --color-background: #ffffff;
+  --color-foreground: #070e06;
+
+  --color-card: #ffffff;
+  --color-card-foreground: #070e06;
+
+  --color-popover: #ffffff;
+  --color-popover-foreground: #070e06;
+
+  --color-primary: #c57712;
+  --color-primary-foreground: #ffffff;
+
+  --color-secondary: #f3f4f6;
+  --color-secondary-foreground: #111827;
+
+  --color-muted: #f3f4f6;
+  --color-muted-foreground: #6b7280;
+
+  --color-accent: #f3f4f6;
+  --color-accent-foreground: #111827;
+
+  --color-destructive: #dc2626;
+  --color-destructive-foreground: #ffffff;
+
+  --color-border: #e5e7eb;
+  --color-input: #d1d5db;
+  --color-ring: #c57712;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.25rem;
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
   font-family: "Inter Variable", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-Card {
+[data-slot="card"] {
   border: 0px !important;
 }
+
 button {
   cursor: pointer;
+}
+
+[data-dashboard] ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+[data-dashboard] ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+[data-dashboard] ::-webkit-scrollbar-thumb {
+  background-color: rgb(0 0 0 / 0.15);
+  border-radius: 9999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+[data-dashboard] ::-webkit-scrollbar-thumb:hover {
+  background-color: rgb(0 0 0 / 0.25);
 }
